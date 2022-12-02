@@ -32,6 +32,12 @@ final class signupTest extends TestCase
 		fclose($usersfile); 
 	}
 
+	public function clearEmail() :void
+	{
+		$email=fopen("/home/robkle/Projects/camagru/html/mocks/mockEmail/mockEmail.txt", "w");
+		fclose($email); 
+	}
+
 	public function testSuccess()
 	{	
 		$data_access = new MockDataAccess();
@@ -40,6 +46,7 @@ final class signupTest extends TestCase
 		$presenter = new MockSignupPresenter();
 		Controller::signup($this->userSignup, $data_access, $message_handler, $signup_view, $presenter);
 		$this->assertSame("Success", $signup_view->err_msg);
+		$this->clearEmail();
 	}
 
 	public function testInvalidLogin()
