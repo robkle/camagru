@@ -21,7 +21,7 @@ class SignupInteractor implements UserInteractor
 					if (PasswdValidator::passwd_format($userdata->pswd) == 1) {
 						$db_user = $userdata->data_access->fetchUser($userdata->login, $userdata->email);
 						if ($db_user != [NULL]) {
-							if ($db_user['login'] === null) {
+							if ($db_user['login'] === null || $db_user['login'] !== $userdata->login) {
 								if ($db_user['email'] === null) {
 									$ckey = Ckey::create($userdata->login);
 									if ($userdata->data_access->postUser($userdata->login, $userdata->email, PasswdValidator::passwd_encrypt($userdata->pswd), $ckey) == TRUE) {

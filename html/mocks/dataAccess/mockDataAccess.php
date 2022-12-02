@@ -7,7 +7,7 @@ class MockDataAccess implements DataAccess
 	public function fetchUser($user, $email): array
 	{	
 		$db_user = [];
-		if (($handle = fopen("/home/robkle/Projects/_camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
 		{
 			$db_user = ["id" => null, "login" => null, "email" => null, "pswd" => null, "confirm" => null, "ckey" => null];
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
@@ -27,7 +27,7 @@ class MockDataAccess implements DataAccess
 	public function postUser($login, $email, $enc_pswd, $ckey): bool
 	{
 		$SUCCESS = false;
-		if (($handle = fopen("/home/robkle/Projects/_camagru/html/mocks/mockDatabase/users.csv", "a")) !== FALSE)
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "a")) !== FALSE)
 		{
 			$user_id = rand(1000, 9999);
 			$user = [$user_id, $login, $email, $enc_pswd, "No", $ckey];
@@ -43,7 +43,7 @@ class MockDataAccess implements DataAccess
 	public function fetchCkey($ckey): array
 	{
 		$db_ckey = [];
-		if (($handle = fopen("/home/robkle/Projects/_camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
 		{
 			$db_ckey = ["confirm" => null, "ckey" => null];
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
@@ -63,9 +63,9 @@ class MockDataAccess implements DataAccess
 	public function confirmUser($ckey): bool 
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/_camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
 		{
-			if (($handle_tmp = fopen("/home/robkle/Projects/_camagru/html/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
+			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
 			{
 				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 				{
@@ -79,7 +79,7 @@ class MockDataAccess implements DataAccess
 			fclose($handle_tmp);
 		}
 		fclose($handle);
-		rename("/home/robkle/Projects/_camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/_camagru/html/mocks/mockDatabase/users.csv");
+		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
 		return $SUCCESS;
 	}
 }

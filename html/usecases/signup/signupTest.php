@@ -25,6 +25,13 @@ final class signupTest extends TestCase
 		);
 	}
 
+
+	public function clearDb() :void
+	{
+		$usersfile=fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "w");
+		fclose($usersfile); 
+	}
+
 	public function testSuccess()
 	{	
 		$data_access = new MockDataAccess();
@@ -77,30 +84,64 @@ final class signupTest extends TestCase
 		$presenter = new MockSignupPresenter();
 		Controller::signup($this->userSignup, $data_access, $message_handler, $signup_view, $presenter);
 		$this->assertSame("ExistingEmail", $signup_view->err_msg);	
-	}
-
-	public function testInvalidPassword()
-	{
-		$this->assertSame(1,1);	
+		$this->clearDb();
 	}
 
 	public function testConflictPassword()
 	{
-		$this->assertSame(1,1);	
+		$this->userSignup["pswd"] = "password";
+		$data_access = new MockDataAccess();
+		$message_handler = new MockMessageHandler();
+		$signup_view = new MockSignupViewModel();
+		$presenter = new MockSignupPresenter();
+		Controller::signup($this->userSignup, $data_access, $message_handler, $signup_view, $presenter);
+		$this->assertSame("ConflictPassword", $signup_view->err_msg);	
 	}
 
-	public function testMessageFail()
+	public function testInvalidPassword()
 	{
-		$this->assertSame(1,1);	
+		$this->userSignup["pswd"] = "password";
+		$this->userSignup["pswd2"] = "password";
+		$data_access = new MockDataAccess();
+		$message_handler = new MockMessageHandler();
+		$signup_view = new MockSignupViewModel();
+		$presenter = new MockSignupPresenter();
+		Controller::signup($this->userSignup, $data_access, $message_handler, $signup_view, $presenter);
+		$this->assertSame("InvalidPassword", $signup_view->err_msg);	
 	}
 	
 	public function testDbFetchFail()
 	{
-		$this->assertSame(1,1);	
+		$data_access = $this->createStub(MockDataAccess::class);
+		$data_access->method('fetchUser')->will($this->returnValue([NULL]));
+		$message_handler = new MockMessageHandler();
+		$signup_view = new MockSignupViewModel();
+		$presenter = new MockSignupPresenter();
+		Controller::signup($this->userSignup, $data_access, $message_handler, $signup_view, $presenter);
+		$this->assertSame("SystemFailure", $signup_view->err_msg);
 	}
 
 	public function testDbPostFail()
 	{
-		$this->assertSame(1,1);	
+		$data_access = $this->createStub(MockDataAccess::class);
+		$data_access->method('fetchUser')->will($this->returnValue(["login" => null, "email" => null, "pswd" => null]));
+		$data_access->method('postUser')->will($this->returnValue(false));
+		$message_handler = new MockMessageHandler();
+		$signup_view = new MockSignupViewModel();
+		$presenter = new MockSignupPresenter();
+		Controller::signup($this->userSignup, $data_access, $message_handler, $signup_view, $presenter);
+		$this->assertSame("SystemFailure", $signup_view->err_msg);
+	}
+
+	public function testMessageFail()
+	{
+		$data_access = new MockDataAccess();
+		$message_handler = $this->createStub(MockMessageHandler::class);
+		$message_handler->method('signupEmail')->will($this->returnValue(False));
+		$signup_view = new MockSignupViewModel();
+		$presenter = new MockSignupPresenter();
+		Controller::signup($this->userSignup, $data_access, $message_handler, $signup_view, $presenter);
+		$this->assertSame("SystemFailure", $signup_view->err_msg);
+		$this->clearDb();
 	}
 }
