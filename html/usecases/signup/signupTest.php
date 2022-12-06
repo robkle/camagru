@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__.'/../../mocks/mockInput/signupInput.php';
 require_once __DIR__.'/../../mocks/dataAccess/mockDataAccess.php';
 require_once __DIR__.'/../../mocks/messageHandler/mockMessageHandler.php';
 require_once __DIR__.'/../../mocks/viewModels/mockSignupViewModel.php';

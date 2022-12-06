@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../'usecases/interfaces/confirmOutputInterface.php';
+require_once __DIR__.'/../../usecases/interfaces/confirmOutputInterface.php';
 
 class MockConfirmPresenter implements ConfirmOutput
 {

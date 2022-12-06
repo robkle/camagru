@@ -1,6 +1,6 @@
 <?php
 
-class MockSignupViewModel
+class MockLoginViewModel
 {
 	public $err_msg;
 

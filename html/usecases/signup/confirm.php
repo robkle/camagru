@@ -12,7 +12,8 @@ class ConfirmInteractor implements ConfirmUserInteractor
 	public static function run ($userdata)
 	{
 		//check if ckey is not null
-		if (isset($userdata->ckey) !== FALSE) {
+		//if (isset($userdata->ckey) !== FALSE) {
+		if ($userdata->ckey != null) {
 			//fetch ckey from db
 			$db_ckey = $userdata->data_access->fetchCkey($userdata->ckey);
 			if ($db_ckey !== [NULL]) {	
