@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-require "./passwdValidator.php";
+require __DIR__."/passwdValidator.php";
 
 final class passwdValidatorTest extends TestCase
 {
