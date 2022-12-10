@@ -2,43 +2,35 @@
 
 require_once __DIR__.'/../interfaces/confirmInputInterface.php';
 require_once __DIR__.'/../interfaces/confirmOutputInterface.php';
-#require_once __DIR__.'/../../dataAccess/mockDataAccess.php';
-#require_once __DIR__.'/../../presenter/mockConfirmPresenter.php';
 require_once __DIR__.'/../data/confirmOutputData.php';
 
 
 class ConfirmInteractor implements ConfirmUserInteractor
 {
-	public static function run ($userdata)
+	public static function run($userdata)
 	{
-		//check if ckey is not null
-		//if (isset($userdata->ckey) !== FALSE) {
-		if ($userdata->ckey != null) {
-			//fetch ckey from db
-			$db_ckey = $userdata->data_access->fetchCkey($userdata->ckey);
-			if ($db_ckey !== [NULL]) {	
-				//check that it exists
-				if (isset($db_ckey['ckey']) !== FALSE) {
-					//check that confirm is No
-					if ($db_ckey['confirm'] !== "Yes") {
-					//update db with YES
-						if ($userdata->data_access->confirmUser($userdata->ckey) === TRUE) {
-							$status = ConfirmStatus::Success;
-						} else {
-							$status = ConfirmStatus::SystemFailure;
-						}
-					} else {
-					$status = ConfirmStatus::AccountConfirmed;
-					}
-				} else {
-					$status = ConfirmStatus::AccountInvalid;
-				}
-			} else {
-				$status = ConfirmStatus::SystemFailure;
-			}
-		} else {
-			$status = ConfirmStatus::QueryInvalid;
-		}
+		$status = self::check($userdata);
 		$userdata->presenter->confirmOutput($status, $userdata->output_view);
+	}
+
+	public static function check($userdata)
+	{
+		if ($userdata->ckey == null) {
+			return ConfirmStatus::QueryInvalid;
+		}
+		$db_ckey = $userdata->data_access->fetchCkey($userdata->ckey);
+		if ($db_ckey === [NULL]) {
+			return ConfirmStatus::SystemFailure;
+		}	
+		if (isset($db_ckey['ckey']) !== true) {
+			return ConfirmStatus::AccountInvalid;
+		}
+		if ($db_ckey['confirm'] === "Yes") {
+			return ConfirmStatus::AccountConfirmed;
+		}
+		if ($userdata->data_access->confirmUser($userdata->ckey) !== TRUE) {
+			return ConfirmStatus::SystemFailure;
+		}
+		return ConfirmStatus::Success;
 	}
 }
