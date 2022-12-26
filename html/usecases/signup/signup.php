@@ -29,7 +29,7 @@ class SignupInteractor implements UserInteractor
 		if (PasswdValidator::passwd_format($userdata->pswd) !== 1) {
 			return SignupStatus::InvalidPassword;
 		}
-		$db_user = $userdata->data_access->fetchUser($userdata->login, $userdata->email);
+		$db_user = $userdata->data_access->fetchUser(null, $userdata->login, $userdata->email);
 		if ($db_user === [NULL]) {
 			return SignupStatus::SystemFailure;
 		}

@@ -2,13 +2,12 @@
 
 require_once __DIR__.'/../interfaces/loginInputInterface.php';
 require_once __DIR__.'/../../entities/passwdValidator.php';
-require_once __DIR__.'/../data/loginOutputData.php';
 
 class LoginInteractor implements LoginInterface
 {
 	public static function run($loginData)
 	{
-		$dbUser = $loginData->data_access->fetchUser($loginData->login, null);
+		$dbUser = $loginData->data_access->fetchUser(null, $loginData->login, null);
 		$sessionUser = [];
 		$status = self::check($loginData, $dbUser, $sessionUser);
 		$loginData->presenter->loginOutput($status, $sessionUser, $loginData->output_view);

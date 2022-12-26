@@ -4,7 +4,7 @@ require_once __DIR__.'/../../usecases/interfaces/dataAccessInterface.php';
 
 class MockDataAccess implements DataAccess
 {
-	public function fetchUser($user, $email): array
+	public function fetchUser($userId, $user, $email): array
 	{	
 		$db_user = [];
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
@@ -13,7 +13,7 @@ class MockDataAccess implements DataAccess
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 			{
 				$data=json_encode($line);
-				if (strpos($data, $user) !== FALSE or strpos($data, $email) !== FALSE)
+				if (strpos($data, $userId) !== FALSE or strpos($data, $user) !== FALSE or strpos($data, $email) !== FALSE)
 				{
 					$db_user = ["id" => $line[0], "login" => $line[1], "email" => $line[2], "pswd" => $line[3], "confirm" => $line[4], "ckey" => $line[5]];
 					break;	
@@ -81,5 +81,22 @@ class MockDataAccess implements DataAccess
 		fclose($handle);
 		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
 		return $SUCCESS;
+	}
+
+	public function postImage($userId, $image): bool
+	{
+		$SUCCESS = FALSE;
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "a")) !== FALSE)
+		{
+			$img_id = rand(1000, 9999);
+			$img = [$img_id, $userId, $image];
+			if (fputcsv($handle, $img) !== FALSE)
+			{
+				$SUCCESS = true;
+			}
+		}
+		fclose($handle);
+		return $SUCCESS;
+
 	}
 }
