@@ -29,9 +29,9 @@ class Controller
 		LoginInteractor::run($loginData);
 	}
 
-	static function upload($file, $filter, $userId, &$data_access, &$upload_view, &$presenter)
+	static function upload($file, $dest, $filter, $userId, &$data_access, &$upload_view, &$presenter)
 	{
-		$uploadData = new UploadInputData($file, $filter, $userId, $data_access, $upload_view, $presenter);
+		$uploadData = new UploadInputData($file, $dest, $filter, $userId, $data_access, $upload_view, $presenter);
 		UploadInteractor::run($uploadData);
 	}
 }

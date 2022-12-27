@@ -7,6 +7,16 @@ class UploadInteractor implements UploadInterface
 	public static function run($uploadData)
 	{
 		$status = self::check($uploadData);
+		if ($status == NULL) {
+			$finalImage = self::merge($uploadData->tmpName, $uploadData->filter);
+			if ($finalImage === FALSE){
+				$status = UploadStatus::SystemFailure;
+			} elseif (self::store($finalImage, $uploadData) === FALSE){
+				$status = UploadStatus::SystemFailure;
+			} else {
+				$status = UploadStatus::Success;
+			}
+		}
 		$uploadData->presenter->uploadOutput($status, $uploadData->output_view);
 	}
 
@@ -40,6 +50,33 @@ class UploadInteractor implements UploadInterface
 		if (filesize($uploadData->tmpName) > (1024 * 1024)){
 			return UploadStatus::SizeLimit;
 		}
-		return UploadStatus::Success;
+
+		if ($uploadData->dest === NULL){
+			return UploadStatus::NoDestination;
+		}
+		
+		return NULL;
+	}
+	
+	public static function merge($tmpName, $filter)
+	{
+		//implement merging image and filter here
+		$to = "/tmp/" . uniqid() . ".jpg";
+		copy($tmpName, $to); 
+		return $to;
+	}
+
+	public static function store($image, $uploadData)
+	{
+		$imageName = $uploadData->userId . time() . ".jpg";
+		$imagePath = $uploadData->dest . $imageName;
+		if (rename($image, $imagePath) === FALSE){
+
+			return FALSE;
+		}
+		if ($uploadData->data_access->postImage($uploadData->userId, $imageName) === FALSE){
+			return FALSE;
+		}
+		return TRUE;
 	}
 }

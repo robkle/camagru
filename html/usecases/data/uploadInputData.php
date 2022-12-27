@@ -8,12 +8,13 @@ class UploadInputData
 //	public $fileSize;
 	public $tmp_name;
 	public $error;
+	public $dest;
 	public $filter;
 	public $data_access;
 	public $output_view;
 	public $presenter;
 
-	function __construct($file, $filter, $userId, $data_access, $output_view, $presenter)
+	function __construct($file, $dest, $filter, $userId, $data_access, $output_view, $presenter)
 	{
 		//if (array_key_exists('name', $file)) {
 		//	$this->fileName = $file['name'];
@@ -31,6 +32,7 @@ class UploadInputData
 		if (array_key_exists('error', $file)) {
 			$this->error = $file['error'];
 		}
+		$this->dest = $dest;
 		$this->userId = $userId;
 		$this->filter = $filter;
 		$this->data_access = $data_access;

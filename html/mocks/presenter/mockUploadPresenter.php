@@ -26,6 +26,9 @@ class mockUploadPresenter implements UploadOutput
 			case UploadStatus::NoSource:
 				$upload_view->create("NoSource");
 				break;
+			case UploadStatus::NoDestination:
+				$upload_view->create("NoDestination");
+				break;
 			case UploadStatus::SystemFailure:
 				$upload_view->create("SystemFailure");
 				break;

@@ -8,5 +8,6 @@ enum UploadStatus
 	case NoSource;
 	case InvalidType;
 	case SizeLimit;
+	case NoDestination;
 	case SystemFailure;
 }
