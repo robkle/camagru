@@ -15,9 +15,10 @@ final class uploadTest extends TestCase
 	{
 		$handler = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "w");
 		fclose($handler);
+		//Delete all files in destination younger than 2 minutes
 		$files = glob("/home/robkle/Projects/camagru/html/mocks/mockImages/destination/*");
 		foreach($files as $file){
-  			if(is_file($file)) {
+  			if(is_file($file) and (time() - filemtime($file)) < 120 ) {
     			unlink($file);
   			}
 		}
