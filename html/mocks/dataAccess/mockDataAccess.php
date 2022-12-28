@@ -99,4 +99,62 @@ class MockDataAccess implements DataAccess
 		return $SUCCESS;
 
 	}
+
+	public function postRequestToken($email, $token, $timeout): bool
+	{
+		$SUCCESS = FALSE;
+		$handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/pswdRequest.csv", "a");
+		if ($handle !== FALSE){
+			$_id = rand(1000, 9999);
+			$line = [$_id, $email, $token, $timeout];
+			if (fputcsv($hanle, $img) !== FALSE) {
+				$SUCCESS = TRUE;
+			}
+		}
+		fclose($handle);
+		return $SUCCESS;
+	}
+
+	public function fetchRequestToken($email): array
+	{
+		$db_token = [];
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/pswdRequest.csv", "r")) !== FALSE)
+		{
+			$db_token = ["id" => null, "email" => null, "token" => null, "timeout" => null];
+			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+			{
+				$data=json_encode($line);
+				if (strpos($data, $email) !== FALSE)
+				{
+					$db_token = ["id" => $line[0], "email" => $line[1], "token" => $line[2], "timeout" => $line[3]];
+					break;	
+				}
+			}	
+		}
+		fclose($handle);
+		return $db_token;
+	}
+
+	public function deleteRequestToken($email): bool
+	{
+		$SUCCESS = FALSE;
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/pswdRequest.csv", "r")) !== FALSE)
+		{
+			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpPswdRequest.csv", "a")) !== FALSE)
+			{
+				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+				{
+					if ($line[1] != $email) {
+						fputcsv($handle_tmp, $line);
+					}
+				}
+				$SUCCESS = TRUE;
+			}
+			fclose($handle_tmp);
+		}
+		fclose($handle);
+		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpPswdRequest.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/pswdRequest.csv");
+		return $SUCCESS;
+	}
 }
+	

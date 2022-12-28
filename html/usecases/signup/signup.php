@@ -5,7 +5,7 @@ require_once __DIR__.'/../interfaces/userOutputInterface.php';
 require_once __DIR__.'/../data/userOutputData.php';
 require_once __DIR__.'/../../entities/usernameValidator.php';
 require_once __DIR__.'/../../entities/passwdValidator.php';
-require_once __DIR__.'/../../entities/ckeyGenerator.php';
+require_once __DIR__.'/../../entities/tokenHandler.php';
 
 class SignupInteractor implements UserInteractor
 {
@@ -39,7 +39,7 @@ class SignupInteractor implements UserInteractor
 		if ($db_user['email'] === $userdata->email) {
 			return SignupStatus::ExistingEmail;
 		}
-		$ckey = Ckey::create($userdata->login);
+		$ckey = Tokens::createCkey($userdata->login);
 		if ($userdata->data_access->postUser($userdata->login, $userdata->email, PasswdValidator::passwd_encrypt($userdata->pswd), $ckey) !== TRUE) {
 			return SignupStatus::SystemFailure;
 		}
