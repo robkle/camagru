@@ -13,7 +13,7 @@ class MockDataAccess implements DataAccess
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 			{
 				$data=json_encode($line);
-				if (strpos($data, $userId) !== FALSE or strpos($data, $user) !== FALSE or strpos($data, $email) !== FALSE)
+				if (strpos($data, $userId) or strpos($data, $user) or strpos($data, $email))
 				{
 					$db_user = ["id" => $line[0], "login" => $line[1], "email" => $line[2], "pswd" => $line[3], "confirm" => $line[4], "ckey" => $line[5]];
 					break;	
@@ -107,7 +107,7 @@ class MockDataAccess implements DataAccess
 		if ($handle !== FALSE){
 			$_id = rand(1000, 9999);
 			$line = [$_id, $email, $token, $timeout];
-			if (fputcsv($hanle, $img) !== FALSE) {
+			if (fputcsv($handle, $line) !== FALSE) {
 				$SUCCESS = TRUE;
 			}
 		}

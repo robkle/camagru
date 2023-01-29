@@ -19,5 +19,19 @@ class MockMessageHandler implements MessageInterface
 		return $SUCCESS;
 
 	}
-
+	
+	public function pswdRequestEmail(PswdRequestOutputData $info) : bool
+	{
+		$SUCCESS = false;
+		$body = "http://127.0.0.1.8080/mockRequest.php?$info->token";
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockEmail/mockRequest.txt", "w")) !== false)
+		{
+			if (fwrite($handle, $body) !== false)
+			{
+				$SUCCESS = true;
+			}
+		}
+		fclose($handle);
+		return $SUCCESS;
+	}
 }

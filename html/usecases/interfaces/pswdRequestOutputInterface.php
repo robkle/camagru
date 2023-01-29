@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'../data/pswdRequestOutputData.php';
+require_once __DIR__.'/../data/pswdRequestOutputData.php';
 
 interface PswdRequestOutput
 {
