@@ -14,7 +14,7 @@ class LoginOutputData
 	public $userid;
 	public $username;
 
-	function __construct($userid, $username)
+	function create($userid, $username)
 	{
 		$this->userid = $userid;
 		$this->username = $username;

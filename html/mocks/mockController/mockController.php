@@ -1,19 +1,19 @@
 <?php
 
-require_once __DIR__.'/../usecases/data/userInputData.php';
-require_once __DIR__.'/../usecases/data/confirmInputData.php';
-require_once __DIR__.'/../usecases/data/loginInputData.php';
-require_once __DIR__.'/../usecases/data/uploadInputData.php';
-require_once __DIR__.'/../usecases/data/pswdRequestInputData.php';
-require_once __DIR__.'/../usecases/data/pswdResetInputData.php';
-require_once __DIR__.'/../usecases/data/pswdRenewInputData.php';
-require_once __DIR__.'/../usecases/signup/signup.php';
-require_once __DIR__.'/../usecases/signup/confirm.php';
-require_once __DIR__.'/../usecases/login/login.php';
-require_once __DIR__.'/../usecases/upload/upload.php';
-require_once __DIR__.'/../usecases/passwordRequest/request.php';
-require_once __DIR__.'/../usecases/passwordRequest/reset.php';
-require_once __DIR__.'/../usecases/passwordRequest/renew.php';
+require_once __DIR__.'/../../usecases/data/userInputData.php';
+require_once __DIR__.'/../../usecases/data/confirmInputData.php';
+require_once __DIR__.'/../../usecases/data/loginInputData.php';
+require_once __DIR__.'/../../usecases/data/uploadInputData.php';
+require_once __DIR__.'/../../usecases/data/pswdRequestInputData.php';
+require_once __DIR__.'/../../usecases/data/pswdResetInputData.php';
+require_once __DIR__.'/../../usecases/data/pswdRenewInputData.php';
+require_once __DIR__.'/../../usecases/signup/signup.php';
+require_once __DIR__.'/../../usecases/signup/confirm.php';
+require_once __DIR__.'/../../usecases/login/login.php';
+require_once __DIR__.'/../../usecases/upload/upload.php';
+require_once __DIR__.'/../../usecases/passwordRequest/request.php';
+require_once __DIR__.'/../../usecases/passwordRequest/reset.php';
+require_once __DIR__.'/../../usecases/passwordRequest/renew.php';
 
 
 class Controller

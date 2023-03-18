@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__.'/../../mocks/dataAccess/mockDataAccess.php';
-require_once __DIR__.'/../../mocks/messageHandler/mockMessageHandler.php';
-require_once __DIR__.'/../../mocks/viewModels/mockConfirmViewModel.php';
-require_once __DIR__.'/../../mocks/presenter/mockConfirmPresenter.php';
-require_once __DIR__.'/../../controller/controller.php';
+require_once __DIR__.'/../../mocks/mockDataAccess/mockDataAccess.php';
+require_once __DIR__.'/../../mocks/mockMessageHandler/mockMessageHandler.php';
+require_once __DIR__.'/../../mocks/mockViewModels/mockConfirmViewModel.php';
+require_once __DIR__.'/../../mocks/mockPresenter/mockConfirmPresenter.php';
+require_once __DIR__.'/../../mocks/mockController/mockController.php';
 
 final class confirmTest extends TestCase
 {	

@@ -8,6 +8,6 @@ interface DataAccess
 	public function confirmUser($ckey): bool;
 	public function postImage($userId, $image): bool;
 	public function postRequestToken($email, $token, $timeout): bool;
-	public function fetchRequestToken($email): array;
+	public function fetchRequestToken($token): array;
 	public function deleteRequestToken($email): bool;
 }

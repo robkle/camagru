@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__.'/../../mocks/dataAccess/mockDataAccess.php';
-require_once __DIR__.'/../../mocks/viewModels/mockLoginViewModel.php';
-require_once __DIR__.'/../../mocks/presenter/mockLoginPresenter.php';
-require_once __DIR__.'/../../controller/controller.php';
+require_once __DIR__.'/../../mocks/mockDataAccess/mockDataAccess.php';
+require_once __DIR__.'/../../mocks/mockViewModels/mockLoginViewModel.php';
+require_once __DIR__.'/../../mocks/mockPresenter/mockLoginPresenter.php';
+require_once __DIR__.'/../../mocks/mockController/mockController.php';
 
 final class loginTest extends TestCase
 {

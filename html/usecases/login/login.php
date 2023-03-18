@@ -8,7 +8,7 @@ class LoginInteractor implements LoginInterface
 	public static function run($loginData)
 	{
 		$dbUser = $loginData->data_access->fetchUser(null, $loginData->login, null);
-		$sessionUser = [];
+		$sessionUser = new LoginOutputData();
 		$status = self::check($loginData, $dbUser, $sessionUser);
 		$loginData->presenter->loginOutput($status, $sessionUser, $loginData->output_view);
 	}
@@ -27,7 +27,7 @@ class LoginInteractor implements LoginInterface
 		if ($dbUser['confirm'] === "No") {
 			return LoginStatus::AccountUnconfirmed;
 		}
-		$sessionUser = [$dbUser['id'], $dbUser['login']];
+		$sessionUser->create($dbUser['id'], $dbUser['login']);
 		return LoginStatus::Success;
 	}
 }

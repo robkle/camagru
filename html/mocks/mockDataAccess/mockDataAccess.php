@@ -115,7 +115,7 @@ class MockDataAccess implements DataAccess
 		return $SUCCESS;
 	}
 
-	public function fetchRequestToken($email): array
+	public function fetchRequestToken($token): array
 	{
 		$db_token = [];
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/pswdRequest.csv", "r")) !== FALSE)
@@ -124,8 +124,10 @@ class MockDataAccess implements DataAccess
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 			{
 				$data=json_encode($line);
-				if (strpos($data, $email) !== FALSE)
+				//In MySQL implementation Token::tokenCompare should be used
+				if (strpos($data, $token) !== FALSE)
 				{
+					//token is stored as hex in csv, but will be bin in mysql
 					$db_token = ["id" => $line[0], "email" => $line[1], "token" => $line[2], "timeout" => $line[3]];
 					break;	
 				}
@@ -156,5 +158,27 @@ class MockDataAccess implements DataAccess
 		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpPswdRequest.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/pswdRequest.csv");
 		return $SUCCESS;
 	}
+
+	public function changePassword($user_id, $enc_pswd): bool 
+	{
+		$SUCCESS = FALSE;
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		{
+			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
+			{
+				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+				{
+					if ($line[0] == $user_id) {
+						$line[3] = $enc_pswd;
+					}
+					fputcsv($handle_tmp, $line);
+				}
+				$SUCCESS = TRUE;
+			}
+			fclose($handle_tmp);
+		}
+		fclose($handle);
+		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
+		return $SUCCESS;
+	}
 }
-	
