@@ -181,4 +181,50 @@ class MockDataAccess implements DataAccess
 		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
 		return $SUCCESS;
 	}
+
+	public function changeUsername($user_id, $new_username): bool 
+	{
+		$SUCCESS = FALSE;
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		{
+			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
+			{
+				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+				{
+					if ($line[0] == $user_id) {
+						$line[1] = $new_username;
+					}
+					fputcsv($handle_tmp, $line);
+				}
+				$SUCCESS = TRUE;
+			}
+			fclose($handle_tmp);
+		}
+		fclose($handle);
+		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
+		return $SUCCESS;
+	}
+
+	public function changeEmail($user_id, $new_email): bool 
+	{
+		$SUCCESS = FALSE;
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		{
+			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
+			{
+				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+				{
+					if ($line[0] == $user_id) {
+						$line[2] = $new_email;
+					}
+					fputcsv($handle_tmp, $line);
+				}
+				$SUCCESS = TRUE;
+			}
+			fclose($handle_tmp);
+		}
+		fclose($handle);
+		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
+		return $SUCCESS;
+	}
 }

@@ -4,7 +4,7 @@ require_once __DIR__.'/../../usecases/interfaces/pswdRenewOutputInterface.php';
 
 class MockPswdRenewPresenter implements PswdRenewOutput
 {
-	public function pswdRenewOutput($status, $user_id,  $output_view)
+	public function pswdRenewOutput($status, $user_id, $output_view)
 	{
 		switch ($status)
 		{

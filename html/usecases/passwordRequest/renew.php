@@ -10,7 +10,8 @@ class PswdRenewInteractor implements PswdRenewInterface
 	public static function run($renewdata)
 	{
 		$status = PswdRenewInteractor::check($renewdata);
-		$renewdata->presenter->pswdRenewOutput($status, $renewdata->user_id, $renewdata->output_view);
+		$sessionUser = new PswdRenewOutputData($renewdata->user_id);
+		$renewdata->presenter->pswdRenewOutput($status, $sessionUser, $renewdata->output_view);
 	}
 
 	public static function check($renewdata)
