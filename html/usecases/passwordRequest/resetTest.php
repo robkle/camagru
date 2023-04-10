@@ -30,7 +30,7 @@ final class resetTest extends TestCase
 	public function createUser($login, $email, $pswd, $confirmed)
 	{
 		$pswd_encrypt = password_hash($pswd, PASSWORD_DEFAULT, ['cost'=>12]);
-		$user = [1000, $login, $email, $pswd_encrypt, $confirmed, "12345"];
+		$user = [1000, $login, $email, $pswd_encrypt, $confirmed, "12345", "On"];
 		$handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "w");
 		fputcsv($handle, $user);
 		fclose($handle);

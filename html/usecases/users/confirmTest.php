@@ -14,7 +14,7 @@ final class confirmTest extends TestCase
 {	
 	public function createSignup($login, $email, $pswd, $ckey)
 	{
-		$user = [1000, $login, $email, $pswd, "No", $ckey];
+		$user = ["1000", $login, $email, $pswd, "No", $ckey, "On"];
 		$handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "w");
 		fputcsv($handle, $user);
 		fclose($handle);

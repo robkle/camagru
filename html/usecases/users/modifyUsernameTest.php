@@ -13,7 +13,7 @@ final class modifyUsernameTest extends TestCase
 {	
 	public function createUser($user_id, $login)
 	{
-		$user = [$user_id, $login, "email@domain.com", "#Pswd123!", "Yes", "12345"];
+		$user = [$user_id, $login, "email@domain.com", "#Pswd123!", "Yes", "12345", "On"];
 		$handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "w");
 		fputcsv($handle, $user);
 		fclose($handle);

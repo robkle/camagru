@@ -9,13 +9,25 @@ class MockDataAccess implements DataAccess
 		$db_user = [];
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
 		{
-			$db_user = ["id" => null, "login" => null, "email" => null, "pswd" => null, "confirm" => null, "ckey" => null];
+			$db_user = ["id" => null,
+						"login" => null,
+						"email" => null,
+						"pswd" => null,
+						"confirm" => null,
+						"ckey" => null,
+						"notifications" => null];
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 			{
 				$data=json_encode($line);
 				if (strpos($data, $userId) or strpos($data, $user) or strpos($data, $email))
 				{
-					$db_user = ["id" => $line[0], "login" => $line[1], "email" => $line[2], "pswd" => $line[3], "confirm" => $line[4], "ckey" => $line[5]];
+					$db_user = ["id" => $line[0],
+								"login" => $line[1],
+								"email" => $line[2],
+								"pswd" => $line[3],
+								"confirm" => $line[4],
+								"ckey" => $line[5],
+								"notifications" => $line[6]];
 					break;	
 				}
 			}	
@@ -30,7 +42,7 @@ class MockDataAccess implements DataAccess
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "a")) !== FALSE)
 		{
 			$user_id = rand(1000, 9999);
-			$user = [$user_id, $login, $email, $enc_pswd, "No", $ckey];
+			$user = [$user_id, $login, $email, $enc_pswd, "No", $ckey, "On"];
 			if (fputcsv($handle, $user) !== FALSE)
 			{
 				$SUCCESS = true;
@@ -216,6 +228,29 @@ class MockDataAccess implements DataAccess
 				{
 					if ($line[0] == $user_id) {
 						$line[2] = $new_email;
+					}
+					fputcsv($handle_tmp, $line);
+				}
+				$SUCCESS = TRUE;
+			}
+			fclose($handle_tmp);
+		}
+		fclose($handle);
+		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
+		return $SUCCESS;
+	}
+
+	public function changeNotifications($user_id, $notifications): bool 
+	{
+		$SUCCESS = FALSE;
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		{
+			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
+			{
+				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+				{
+					if ($line[0] == $user_id) {
+						$line[6] = $notifications;
 					}
 					fputcsv($handle_tmp, $line);
 				}

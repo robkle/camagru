@@ -14,7 +14,7 @@ final class signupTest extends TestCase
 {	
 	public $userSignup;
 
-	public function setUp() :void
+	public function setUp() : void
 	{
 		$this->userSignup = array(
 			"login" => "username",

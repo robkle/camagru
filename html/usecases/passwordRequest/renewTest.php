@@ -13,7 +13,7 @@ final class renewTest extends TestCase
 {
 	public function createUser()
 	{
-		$user = [1000, "user", "user@domain.com", "Password", "Yes", "12345"];
+		$user = [1000, "user", "user@domain.com", "Password", "Yes", "12345", "On"];
 		$handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "w");
 		fputcsv($handle, $user);
 		fclose($handle);

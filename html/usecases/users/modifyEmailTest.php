@@ -13,7 +13,7 @@ final class modifyEmailTest extends TestCase
 {	
 	public function createUser($user_id, $email)
 	{
-		$user = [$user_id, "user123", $email, "#Pswd123!", "Yes", "12345"];
+		$user = [$user_id, "user123", $email, "#Pswd123!", "Yes", "12345", "On"];
 		$handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "w");
 		fputcsv($handle, $user);
 		fclose($handle);
@@ -76,5 +76,6 @@ final class modifyEmailTest extends TestCase
 		$presenter = new MockModifyEmailPresenter();
 		Controller::modifyEmail("1000", ["email" => "newEmail@domain.com"], $data_access, $output_view, $presenter);
 		$this->assertSame("Success", $output_view->err_msg);
+		$this->clearDb();
 	}
 }

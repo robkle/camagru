@@ -11,7 +11,7 @@ require_once __DIR__.'/../../mocks/mockController/mockController.php';
 
 final class uploadTest extends TestCase
 {
-	public function clear() : void
+	public function clear()
 	{
 		$handler = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "w");
 		fclose($handler);
