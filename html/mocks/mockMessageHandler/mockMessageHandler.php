@@ -34,4 +34,34 @@ class MockMessageHandler implements MessageInterface
 		fclose($handle);
 		return $SUCCESS;
 	}
+
+	public function commentNotification(CommentOutputData $info) : bool
+	{
+		$SUCCESS = false;
+		$body = "Hi $info->recipient!\n$info->commentor commented on your image:\n\"$info->comment\"\n";
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockEmail/mockComments.txt", "a")) !== false)
+		{
+			if (fwrite($handle, $body) !== false)
+			{
+				$SUCCESS = true;
+			}
+		}
+		fclose($handle);
+		return $SUCCESS;
+	}
+
+	public function likeNotification(LikeOutputData $info) : bool
+	{
+		$SUCCESS = false;
+		$body = "Hi $info->recipient!\n$info->liker liked your image.\n";
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockEmail/mockLikes.txt", "a")) !== false)
+		{
+			if (fwrite($handle, $body) !== false)
+			{
+				$SUCCESS = true;
+			}
+		}
+		fclose($handle);
+		return $SUCCESS;
+	}
 }

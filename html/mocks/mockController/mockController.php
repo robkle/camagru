@@ -10,6 +10,8 @@ require_once __DIR__.'/../../usecases/data/pswdRenewInputData.php';
 require_once __DIR__.'/../../usecases/data/modifyUsernameInputData.php';
 require_once __DIR__.'/../../usecases/data/modifyEmailInputData.php';
 require_once __DIR__.'/../../usecases/data/changeNotificationsInputData.php';
+require_once __DIR__.'/../../usecases/data/commentInputData.php';
+require_once __DIR__.'/../../usecases/data/likeInputData.php';
 require_once __DIR__.'/../../usecases/users/signup.php';
 require_once __DIR__.'/../../usecases/users/confirm.php';
 require_once __DIR__.'/../../usecases/login/login.php';
@@ -20,6 +22,8 @@ require_once __DIR__.'/../../usecases/passwordRequest/renew.php';
 require_once __DIR__.'/../../usecases/users/modifyUsername.php';
 require_once __DIR__.'/../../usecases/users/modifyEmail.php';
 require_once __DIR__.'/../../usecases/users/changeNotifications.php';
+require_once __DIR__.'/../../usecases/responses/comments.php';
+require_once __DIR__.'/../../usecases/responses/likes.php';
 
 
 class Controller
@@ -83,4 +87,17 @@ class Controller
 		$changeData = new ChangeNotificationsInputData($user_id, $input, $data_access, $output_view, $presenter);
 		ChangeNotificationsInteractor::run($changeData);
 	}
+
+	static function comment($user_id, $input, &$data_access, &$message_handler, &$output_view, &$presenter)
+	{
+		$commentData = new CommentInputData($user_id, $input, $data_access, $message_handler, $output_view, $presenter);
+		CommentInteractor::run($commentData);
+	}
+
+	static function like($user_id, $input, &$data_access, &$message_handler, &$output_view, &$presenter)
+	{
+		$likeData = new LikeInputData($user_id, $input, $data_access, $message_handler, $output_view, $presenter);
+		LikeInteractor::run($likeData);
+	}
 }
+
