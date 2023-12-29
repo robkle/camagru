@@ -12,6 +12,8 @@ require_once __DIR__.'/../../usecases/data/modifyEmailInputData.php';
 require_once __DIR__.'/../../usecases/data/changeNotificationsInputData.php';
 require_once __DIR__.'/../../usecases/data/commentInputData.php';
 require_once __DIR__.'/../../usecases/data/likeInputData.php';
+require_once __DIR__.'/../../usecases/data/galleryInputData.php';
+require_once __DIR__.'/../../usecases/data/imageInputData.php';
 require_once __DIR__.'/../../usecases/users/signup.php';
 require_once __DIR__.'/../../usecases/users/confirm.php';
 require_once __DIR__.'/../../usecases/login/login.php';
@@ -24,6 +26,8 @@ require_once __DIR__.'/../../usecases/users/modifyEmail.php';
 require_once __DIR__.'/../../usecases/users/changeNotifications.php';
 require_once __DIR__.'/../../usecases/responses/comments.php';
 require_once __DIR__.'/../../usecases/responses/likes.php';
+require_once __DIR__.'/../../usecases/display/gallery.php';
+require_once __DIR__.'/../../usecases/display/image.php';
 
 
 class Controller
@@ -99,5 +103,22 @@ class Controller
 		$likeData = new LikeInputData($user_id, $input, $data_access, $message_handler, $output_view, $presenter);
 		LikeInteractor::run($likeData);
 	}
-}
 
+	static function gallery($user_id, &$data_access, &$output_view, &$presenter, $input = null)
+	{
+		$galleryData = new GalleryInputData($user_id, $input, $data_access, $output_view, $presenter);
+		GalleryInteractor::run($galleryData);
+	}
+
+	static function privateGallery($user_id, &$data_access, &$output_view, &$presenter, $input = null)
+	{
+		$galleryData = new GalleryInputData($user_id, $input, $data_access, $output_view, $presenter);
+		PrivateGalleryInteractor::run($galleryData);
+	}
+
+	static function image($input, &$data_access, &$output_view, &$presenter)
+	{
+		$inputData = new ImageInputData($input, $data_access, $output_view, $presenter);
+		ImageInteractor::run($inputData);
+	}
+}

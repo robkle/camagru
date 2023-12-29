@@ -391,4 +391,87 @@ class MockDataAccess implements DataAccess
 		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpimages.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv");
 		return $SUCCESS;
 	}
+
+	public function fetchImages($creator = NULL)
+	{
+		$images = array();
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) !== FALSE)
+		{
+			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+			{
+				if ($line[1] === $creator or $creator === NULL) {	
+					$image = [
+						"id" => $line[0],
+						"creator_id" => $line[1],
+						"path" => $line[2],
+						"likes" => $line[3]];
+								
+					$creatorData = $this->fetchUser($line[1], null, null);
+					$image["creator"] = $creatorData["login"];
+					array_push($images, $image);
+				}
+			}
+		} else {
+			return NULL;
+		}
+		fclose($handle);
+		return $images;	
+	}
+
+	public function fetchImage($image_id)
+	{
+		$image = [];
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) !== FALSE)
+		{
+			$image = [
+					"id" => null, 
+					"creator_id" => null, 
+					"creator" => null,
+					"path" => null,
+					"likes" => null];
+	
+			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+			{
+				$data = json_encode($line);
+				if (strpos($data, $image_id)) {	
+					$image = [
+						"id" => $line[0],
+						"creator_id" => $line[1],
+						"path" => $line[2],
+						"likes" => $line[3]];
+								
+					$creatorData = $this->fetchUser($line[1], null, null);
+					$image["creator"] = $creatorData["login"];
+					break;
+				}
+			}
+		}
+		fclose($handle);
+		return $image;	
+	}
+
+	public function fetchComments($image_id) {
+		$comments = array();
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/comments.csv", "r")) !== FALSE)
+		{
+			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+			{
+				if ($line[1] === $image_id) {
+					$comment = [
+						"comment_id" => $line[0],
+						"image_id" => $line[1],
+						"user_id" => $line[2],
+						"comment" => $line[3],
+					];
+					$commenterData = $this->fetchUser($line[2], null, null);
+					$comment["commenter"] = $commenterData["login"];
+					array_push($comments, $comment);
+				}
+			}
+		} else {
+			return NULL;
+		}
+		fclose($handle);
+		return $comments;
+	}
 }
