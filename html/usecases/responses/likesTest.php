@@ -60,6 +60,7 @@ final class likesTest extends TestCase
 		$this->createDb();
 		Controller::like('2000', NULL, $data_access, $message_handler, $output_view, $presenter);
 		$this->assertSame("Unauthorised", $output_view->err_msg);
+		$this->clearDb();
 	}
 
 
@@ -109,17 +110,19 @@ final class likesTest extends TestCase
 
 
 		//TEST email notification failure
-
+		$this->createDb();
 		$data_access = new MockDataAccess();
 		$message_handler = $this->createStub(MockMessageHandler::class);
 		$message_handler->method('likeNotification')->will($this->returnValue(false));
 		Controller::like('1000', ['image_id' => '0001'], $data_access, $message_handler, $output_view, $presenter);
 		$this->assertSame("SystemFailure", $output_view->err_msg);
+		$this->clearDb();
 
 	}
 
 	public function testSuccess()
 	{	
+		$this->createDb();
 		$data_access = new MockDataAccess();
 		$message_handler = new MockMessageHandler();
 		$output_view = new MockLikeViewModel();

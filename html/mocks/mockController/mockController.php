@@ -14,6 +14,7 @@ require_once __DIR__.'/../../usecases/data/commentInputData.php';
 require_once __DIR__.'/../../usecases/data/likeInputData.php';
 require_once __DIR__.'/../../usecases/data/galleryInputData.php';
 require_once __DIR__.'/../../usecases/data/imageInputData.php';
+require_once __DIR__.'/../../usecases/data/removeInputData.php';
 require_once __DIR__.'/../../usecases/users/signup.php';
 require_once __DIR__.'/../../usecases/users/confirm.php';
 require_once __DIR__.'/../../usecases/login/login.php';
@@ -28,6 +29,7 @@ require_once __DIR__.'/../../usecases/responses/comments.php';
 require_once __DIR__.'/../../usecases/responses/likes.php';
 require_once __DIR__.'/../../usecases/display/gallery.php';
 require_once __DIR__.'/../../usecases/display/image.php';
+require_once __DIR__.'/../../usecases/display/remove.php';
 
 
 class Controller
@@ -120,5 +122,11 @@ class Controller
 	{
 		$inputData = new ImageInputData($input, $data_access, $output_view, $presenter);
 		ImageInteractor::run($inputData);
+	}
+
+	static function remove($user_id, $input, &$data_access, &$output_view, &$presenter)
+	{
+		$removeData = new RemoveInputData($user_id, $input, $data_access, $output_view, $presenter);
+		RemoveInteractor::run($removeData);
 	}
 }

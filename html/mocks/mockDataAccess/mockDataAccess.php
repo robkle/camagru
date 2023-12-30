@@ -474,4 +474,75 @@ class MockDataAccess implements DataAccess
 		fclose($handle);
 		return $comments;
 	}
+
+	public function removeImageLikes($image_id)
+	{
+		$SUCCESS = FALSE;
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/likes.csv", "r")) !== FALSE)
+		{
+			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmplikess.csv", "a")) !== FALSE)
+			{
+				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+				{
+					if ($line[1] == $image_id) {
+						continue;
+					}
+					fputcsv($handle_tmp, $line);
+				}
+				$SUCCESS = TRUE;
+			}
+			fclose($handle_tmp);
+		}
+		fclose($handle);
+		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmplikess.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/likess.csv");
+		return $SUCCESS;
+	}
+
+	public function removeComments($image_id)
+	{
+		$SUCCESS = FALSE;
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/comments.csv", "r")) !== FALSE)
+		{
+			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpcomments.csv", "a")) !== FALSE)
+			{
+				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+				{
+					if ($line[1] == $image_id) {
+						continue;
+					}
+					fputcsv($handle_tmp, $line);
+				}
+				$SUCCESS = TRUE;
+			}
+			fclose($handle_tmp);
+		}
+		fclose($handle);
+		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpcomments.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/comments.csv");
+		return $SUCCESS;
+	}
+
+	public function removeImage($image_id, $user_id)
+	{
+		$SUCCESS = FALSE;
+		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) !== FALSE)
+		{
+			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpimages.csv", "a")) !== FALSE)
+			{
+				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
+				{
+					if ($line[0] == $image_id and $line[1] == $user_id) {
+						continue;
+					}
+					fputcsv($handle_tmp, $line);
+				}
+				$SUCCESS = TRUE;
+			}
+			fclose($handle_tmp);
+		}
+		fclose($handle);
+		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpimages.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv");
+		$this->removeComments($image_id);
+		$this->removeImageLikes($image_id);
+		return $SUCCESS;
+	}
 }
