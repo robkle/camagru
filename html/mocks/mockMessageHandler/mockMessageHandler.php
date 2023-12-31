@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/messageInterface.php';
+require_once __DIR__.'/../../entities/messageInterface.php';
 
 class MockMessageHandler implements MessageInterface
 {

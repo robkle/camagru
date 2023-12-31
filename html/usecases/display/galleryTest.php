@@ -57,13 +57,13 @@ final class galleryTest extends TestCase
 		$this->assertSame("SystemFailure", $output_view->err_msg);
 	}
 
-	public function testUnauthorized()
+	public function testUnauthorised()
 	{
 		$data_access = new MockDataAccess();
 		$output_view = new MockGalleryViewModel();
 		$presenter = new MockGalleryPresenter();
 		Controller::privateGallery('', $data_access, $output_view, $presenter);
-		$this->assertSame("Unauthorized", $output_view->err_msg);
+		$this->assertSame("Unauthorised", $output_view->err_msg);
 	}
 
 	public function testSuccess()
@@ -74,8 +74,10 @@ final class galleryTest extends TestCase
 		$presenter = new MockGalleryPresenter();
 		Controller::gallery('1000', $data_access, $output_view, $presenter);
 		$this->assertSame("Success", $output_view->err_msg);
+		$this->assertSame(4, count($output_view->gallery));
 		Controller::privateGallery('1001', $data_access, $output_view, $presenter);
 		$this->assertSame("Success", $output_view->err_msg);
+		$this->assertSame(2, count($output_view->gallery));
 		$this->clearDb();
 	}
 }

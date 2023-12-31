@@ -77,8 +77,12 @@ final class imageTest extends TestCase
 		$presenter = new MockImagePresenter();
 		Controller::image(["image_id" => "0001"], $data_access, $output_view, $presenter);
 		$this->assertSame("Success", $output_view->err_msg);
+		$this->assertSame("0001", $output_view->image["id"]);
+		$this->assertSame(2, count($output_view->comments));
 		Controller::image(["image_id" => "0002"], $data_access, $output_view, $presenter);
 		$this->assertSame("Success", $output_view->err_msg);
+		$this->assertSame("0002", $output_view->image["id"]);
+		$this->assertSame(array(), $output_view->comments);
 		$this->clearDb();
 	}
 }

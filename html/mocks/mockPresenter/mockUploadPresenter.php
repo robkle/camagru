@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/uploadOutputInterface.php';
+require_once __DIR__.'/../../usecases/upload/upload.php';
 
 class mockUploadPresenter implements UploadOutput
 {
@@ -8,28 +8,28 @@ class mockUploadPresenter implements UploadOutput
 	{
 		switch ($status)
 		{
-			case UploadStatus::Success:
+			case Status::Success:
 				$upload_view->create("Success");
 				break;
-			case UploadStatus::InvalidUser:
+			case Status::InvalidUser:
 				$upload_view->create("InvalidUser");
 				break;
-			case UploadStatus::UploadError:
+			case Status::UploadError:
 				$upload_view->create("UploadError");
 				break;
-			case UploadStatus::InvalidType:
+			case Status::InvalidType:
 				$upload_view->create("InvalidType");
 				break;
-			case UploadStatus::SizeLimit:
+			case Status::SizeLimit:
 				$upload_view->create("SizeLimit");
 				break;
-			case UploadStatus::NoSource:
+			case Status::NoSource:
 				$upload_view->create("NoSource");
 				break;
-			case UploadStatus::NoDestination:
+			case Status::NoDestination:
 				$upload_view->create("NoDestination");
 				break;
-			case UploadStatus::SystemFailure:
+			case Status::SystemFailure:
 				$upload_view->create("SystemFailure");
 				break;
 		}

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/imageOutputInterface.php';
+require_once __DIR__.'/../../usecases/display/image.php';
 
 class MockImagePresenter implements ImageOutput
 {
@@ -8,13 +8,13 @@ class MockImagePresenter implements ImageOutput
 	{
 		switch ($status)
 		{
-			case ImageStatus::Success:
-				$output_view->create("Success");
+			case Status::Success:
+				$output_view->create("Success", $image);
 				break;
-			case ImageStatus::NonExistent:
+			case Status::NonExistent:
 				$output_view->create("NonExistent");
 				break;	
-			case ImageStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;
 		}

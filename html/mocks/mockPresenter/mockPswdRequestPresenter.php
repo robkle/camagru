@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/pswdRequestOutputInterface.php';
+require_once __DIR__.'/../../usecases/passwordRequest/request.php';
 
 class MockPswdRequestPresenter implements PswdRequestOutput
 {
@@ -8,13 +8,13 @@ class MockPswdRequestPresenter implements PswdRequestOutput
 	{
 		switch ($status)
 		{
-			case PswdRequestStatus::Success:
+			case Status::Success:
 				$output_view->create("Success");
 				break;	
-			case PswdRequestStatus::InvalidEmail:
+			case Status::InvalidEmail:
 				$output_view->create("InvalidEmail");
 				break;
-			case PswdRequestStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;
 		}

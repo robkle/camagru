@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/pswdResetOutputInterface.php';
+require_once __DIR__.'/../../usecases/passwordRequest/reset.php';
 
 class MockPswdResetPresenter implements PswdResetOutput
 {
@@ -8,19 +8,19 @@ class MockPswdResetPresenter implements PswdResetOutput
 	{
 		switch ($status)
 		{
-			case PswdResetStatus::Success:
+			case Status::Success:
 				$output_view->create("Success");
 				break;	
-			case PswdResetStatus::QueryInvalid:
+			case Status::QueryInvalid:
 				$output_view->create("QueryInvalid");
 				break;
-			case PswdResetStatus::TimeOut:
+			case Status::TimeOut:
 				$output_view->create("TimeOut");
 				break;	
-			case PswdResetStatus::InvalidEmail:
+			case Status::InvalidEmail:
 				$output_view->create("InvalidEmail");
 				break;	
-			case PswdResetStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;	
 		}

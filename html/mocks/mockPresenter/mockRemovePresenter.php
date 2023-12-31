@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/removeOutputInterface.php';
+require_once __DIR__.'/../../usecases/display/remove.php';
 
 class MockRemovePresenter implements RemoveOutput
 {
@@ -8,13 +8,13 @@ class MockRemovePresenter implements RemoveOutput
 	{
 		switch ($status)
 		{
-			case RemoveStatus::Success:
+			case Status::Success:
 				$output_view->create("Success");
 				break;	
-			case RemoveStatus::Unauthorized:
-				$output_view->create("Unauthorized");
+			case Status::Unauthorised:
+				$output_view->create("Unauthorised");
 				break;
-			case RemoveStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;
 		}

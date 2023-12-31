@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/userOutputInterface.php';
+require_once __DIR__.'/../../usecases/users/signup.php';
 
 class MockSignupPresenter implements UserOutput
 {
@@ -8,28 +8,28 @@ class MockSignupPresenter implements UserOutput
 	{
 		switch ($status)
 		{
-			case SignupStatus::Success:
+			case Status::Success:
 				$signup_view->create("Success");
 				break;	
-			case SignupStatus::InvalidLogin:
+			case Status::InvalidLogin:
 				$signup_view->create("InvalidLogin");
 				break;	
-			case SignupStatus::ExistingLogin:
+			case Status::ExistingLogin:
 				$signup_view->create("ExistingLogin");
 				break;
-			case SignupStatus::InvalidEmail:
+			case Status::InvalidEmail:
 				$signup_view->create("InvalidEmail");
 				break;
-			case SignupStatus::ExistingEmail:
+			case Status::ExistingEmail:
 				$signup_view->create("ExistingEmail");
 				break;
-			case SignupStatus::InvalidPassword:
+			case Status::InvalidPassword:
 				$signup_view->create("InvalidPassword");
 				break;
-			case SignupStatus::ConflictPassword:
+			case Status::ConflictPassword:
 				$signup_view->create("ConflictPassword");
 				break;
-			case SignupStatus::SystemFailure:
+			case Status::SystemFailure:
 				$signup_view->create("SystemFailure");
 				break;
 		}

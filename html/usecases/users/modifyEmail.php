@@ -1,8 +1,39 @@
 <?php
 
-require_once __DIR__.'/../interfaces/modifyEmailInputInterface.php';
-require_once __DIR__.'/../interfaces/modifyEmailOutputInterface.php';
-require_once __DIR__.'/../data/modifyEmailOutputData.php';
+require_once __DIR__.'/../../entities/outputStatus.php';
+
+class ModifyEmailInputData
+{
+	public $user_id;
+	public $email;
+	public $data_access;
+	public $output_view;
+	public $presenter;
+	
+
+	function __construct($user_id, $input, $data_access, $output_view, $presenter)
+	{
+		if ($input && array_key_exists('email', $input))
+		{
+			$this->email = $input['email'];
+		}
+		$this->user_id = $user_id;
+		$this->data_access = $data_access;
+		$this->output_view = $output_view;
+		$this->presenter = $presenter;
+	}
+}
+
+interface ModifyEmailInterface
+{
+	public static function run(ModifyEmailInputData $modifydata);
+	public static function check(ModifyEmailInputData $modifydata);
+}
+
+interface modifyEmailOutput
+{
+	public function modifyEmailOutput(ModifyEmailStatus $status, ModifyEmailViewModel $output_view);
+}
 
 class ModifyEmailInteractor implements ModifyEmailInterface
 {
@@ -15,21 +46,21 @@ class ModifyEmailInteractor implements ModifyEmailInterface
 	public static function check($modifydata)
 	{
 		if (strlen($modifydata->user_id) == 0) {
-			return ModifyEmailStatus::Unauthorised;
+			return Status::Unauthorised;
 		}
 		if (filter_var($modifydata->email, FILTER_VALIDATE_EMAIL) === false) {
-			return ModifyEmailStatus::InvalidEmail;
+			return Status::InvalidEmail;
 		}
 		$dbUser = $modifydata->data_access->fetchUser($modifydata->user_id, null, null);
 		if ($dbUser === [NULL]) {
-			return ModifyEmailStatus::SystemFailure;
+			return Status::SystemFailure;
 		}
 		if ($dbUser['id'] === null) {
-			return ModifyEmailStatus::Unauthorised;
+			return Status::Unauthorised;
 		}
 		if ($modifydata->data_access->changeEmail($modifydata->user_id, $modifydata->email)!== TRUE) {
-			return ModifyEmailStatus::SystemFailure;
+			return Status::SystemFailure;
 		}
-		return ModifyEmailStatus::Success;
+		return Status::Success;
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/confirmOutputInterface.php';
+require_once __DIR__.'/../../usecases/users/confirm.php';
 
 class MockConfirmPresenter implements ConfirmOutput
 {
@@ -8,19 +8,19 @@ class MockConfirmPresenter implements ConfirmOutput
 	{
 		switch ($status)
 		{
-			case ConfirmStatus::Success:
+			case Status::Success:
 				$output_view->create("Success");
 				break;	
-			case ConfirmStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;	
-			case ConfirmStatus::AccountConfirmed:
+			case Status::AccountConfirmed:
 				$output_view->create("AccountConfirmed");
 				break;
-			case ConfirmStatus::AccountInvalid:
+			case Status::AccountInvalid:
 				$output_view->create("AccountInvalid");
 				break;
-			case ConfirmStatus::QueryInvalid:
+			case Status::QueryInvalid:
 				$output_view->create("QueryInvalid");
 				break;
 		}

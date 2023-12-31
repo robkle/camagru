@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/dataAccessInterface.php';
+require_once __DIR__.'/../../entities/dataAccessInterface.php';
 
 class MockDataAccess implements DataAccess
 {
@@ -263,7 +263,7 @@ class MockDataAccess implements DataAccess
 		return $SUCCESS;
 	}
 
-	public function fetchImageInfo($image_id)
+	public function fetchImageInfo($image_id): array
 	{	
 		$db_image = [];
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) !== FALSE)
@@ -287,7 +287,7 @@ class MockDataAccess implements DataAccess
 		return $db_image;
 	}
 
-	public function postComment($image_id, $user_id, $comment)
+	public function postComment($image_id, $user_id, $comment): bool
 	{
 		$SUCCESS = false;
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/comments.csv", "a")) !== FALSE)
@@ -303,7 +303,7 @@ class MockDataAccess implements DataAccess
 		return $SUCCESS;
 	}
 
-	public function fetchLike($image_id, $user_id)
+	public function fetchLike($image_id, $user_id): array
 	{
 		$like = [];
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/likes.csv", "r")) !== FALSE)
@@ -322,7 +322,7 @@ class MockDataAccess implements DataAccess
 		return $like;
 	}
 
-	public function addLike($image_id, $user_id)
+	public function addLike($image_id, $user_id): bool
 	{
 		$SUCCESS = false;
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/likes.csv", "a")) !== FALSE)
@@ -338,7 +338,7 @@ class MockDataAccess implements DataAccess
 		}
 	}
 
-	public function removeLike($image_id, $user_id)
+	public function removeLike($image_id, $user_id): bool
 	{
 		$SUCCESS = FALSE;
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/likes.csv", "r")) !== FALSE)
@@ -361,7 +361,7 @@ class MockDataAccess implements DataAccess
 		return $SUCCESS;
 	}
 
-	protected function countLike($image_id, $count)
+	protected function countLike($image_id, $count): bool
 	{
 		$SUCCESS = FALSE;
 		if (($img_handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) == FALSE)
@@ -418,7 +418,7 @@ class MockDataAccess implements DataAccess
 		return $images;	
 	}
 
-	public function fetchImage($image_id)
+	public function fetchImage($image_id): array
 	{
 		$image = [];
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) !== FALSE)
@@ -450,7 +450,8 @@ class MockDataAccess implements DataAccess
 		return $image;	
 	}
 
-	public function fetchComments($image_id) {
+	public function fetchComments($image_id) 
+	{
 		$comments = array();
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/comments.csv", "r")) !== FALSE)
 		{
@@ -475,7 +476,7 @@ class MockDataAccess implements DataAccess
 		return $comments;
 	}
 
-	public function removeImageLikes($image_id)
+	public function removeImageLikes($image_id): bool
 	{
 		$SUCCESS = FALSE;
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/likes.csv", "r")) !== FALSE)
@@ -498,7 +499,7 @@ class MockDataAccess implements DataAccess
 		return $SUCCESS;
 	}
 
-	public function removeComments($image_id)
+	public function removeComments($image_id): bool
 	{
 		$SUCCESS = FALSE;
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/comments.csv", "r")) !== FALSE)
@@ -521,7 +522,7 @@ class MockDataAccess implements DataAccess
 		return $SUCCESS;
 	}
 
-	public function removeImage($image_id, $user_id)
+	public function removeImage($image_id, $user_id): bool
 	{
 		$SUCCESS = FALSE;
 		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) !== FALSE)

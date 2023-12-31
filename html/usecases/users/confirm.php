@@ -1,9 +1,37 @@
 <?php
 
-require_once __DIR__.'/../interfaces/confirmInputInterface.php';
-require_once __DIR__.'/../interfaces/confirmOutputInterface.php';
-require_once __DIR__.'/../data/confirmOutputData.php';
+require_once __DIR__.'/../../entities/outputStatus.php';
 
+class ConfirmInputData
+{
+	public $ckey;
+	public $data_access;
+	public $output_view;
+	public $presenter;
+	
+
+	function __construct($input, $data_access, $output_view, $presenter)
+	{
+		if ($input && array_key_exists('ckey', $input))
+		{
+			$this->ckey = $input['ckey'];
+		}
+		$this->data_access = $data_access;
+		$this->output_view = $output_view;
+		$this->presenter = $presenter;
+	}
+}
+
+interface confirmOutput
+{
+	public static function confirmOutput(Status $status, ConfirmViewModel $output_view);
+}
+
+interface ConfirmUserInteractor
+{
+	public static function run(ConfirmInputData $userdata);
+	public static function check(ConfirmInputData $userdata);
+}
 
 class ConfirmInteractor implements ConfirmUserInteractor
 {
@@ -16,21 +44,21 @@ class ConfirmInteractor implements ConfirmUserInteractor
 	public static function check($userdata)
 	{
 		if ($userdata->ckey == null) {
-			return ConfirmStatus::QueryInvalid;
+			return Status::QueryInvalid;
 		}
 		$db_ckey = $userdata->data_access->fetchCkey($userdata->ckey);
 		if ($db_ckey === [NULL]) {
-			return ConfirmStatus::SystemFailure;
+			return Status::SystemFailure;
 		}	
 		if (isset($db_ckey['ckey']) !== true) {
-			return ConfirmStatus::AccountInvalid;
+			return Status::AccountInvalid;
 		}
 		if ($db_ckey['confirm'] === "Yes") {
-			return ConfirmStatus::AccountConfirmed;
+			return Status::AccountConfirmed;
 		}
 		if ($userdata->data_access->confirmUser($userdata->ckey) !== TRUE) {
-			return ConfirmStatus::SystemFailure;
+			return Status::SystemFailure;
 		}
-		return ConfirmStatus::Success;
+		return Status::Success;
 	}
 }

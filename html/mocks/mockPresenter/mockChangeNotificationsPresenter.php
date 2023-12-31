@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/changeNotificationsOutputInterface.php';
+require_once __DIR__.'/../../usecases/users/changeNotifications.php';
 
 class MockChangeNotificationsPresenter implements changeNotificationsOutput
 {
@@ -8,16 +8,16 @@ class MockChangeNotificationsPresenter implements changeNotificationsOutput
 	{
 		switch ($status)
 		{
-			case ChangeNotificationsStatus::Success:
+			case Status::Success:
 				$output_view->create("Success");
 				break;	
-			case ChangeNotificationsStatus::Unauthorised:
+			case Status::Unauthorised:
 				$output_view->create("Unauthorised");
 				break;
-			case ChangeNotificationsStatus::InvalidOption:
+			case Status::InvalidOption:
 				$output_view->create("InvalidOption");
 				break;
-			case ChangeNotificationsStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;
 		}

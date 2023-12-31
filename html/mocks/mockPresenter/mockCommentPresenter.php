@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/commentOutputInterface.php';
+require_once __DIR__.'/../../usecases/responses/comments.php';
 
 class MockCommentPresenter implements CommentOutput
 {
@@ -8,16 +8,16 @@ class MockCommentPresenter implements CommentOutput
 	{
 		switch ($status)
 		{
-			case CommentStatus::Success:
+			case Status::Success:
 				$output_view->create("Success");
 				break;	
-			case CommentStatus::Unauthorised:
+			case Status::Unauthorised:
 				$output_view->create("Unauthorised");
 				break;
-			case CommentStatus::CommentTooLong:
+			case Status::CommentTooLong:
 				$output_view->create("CommentTooLong");
 				break;
-			case CommentStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;
 		}

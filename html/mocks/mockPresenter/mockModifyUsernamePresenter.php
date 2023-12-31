@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/modifyUsernameOutputInterface.php';
+require_once __DIR__.'/../../usecases/users/modifyUsername.php';
 
 class MockModifyUsernamePresenter implements modifyUsernameOutput
 {
@@ -8,16 +8,16 @@ class MockModifyUsernamePresenter implements modifyUsernameOutput
 	{
 		switch ($status)
 		{
-			case ModifyUsernameStatus::Success:
+			case Status::Success:
 				$output_view->create("Success");
 				break;	
-			case ModifyUsernameStatus::Unauthorised:
+			case Status::Unauthorised:
 				$output_view->create("Unauthorised");
 				break;
-			case ModifyUsernameStatus::InvalidUsername:
+			case Status::InvalidUsername:
 				$output_view->create("InvalidUsername");
 				break;
-			case ModifyUsernameStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;
 		}

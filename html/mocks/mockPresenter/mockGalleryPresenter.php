@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/galleryOutputInterface.php';
+require_once __DIR__.'/../../usecases/display/gallery.php';
 
 class MockGalleryPresenter implements GalleryOutput
 {
@@ -8,13 +8,13 @@ class MockGalleryPresenter implements GalleryOutput
 	{
 		switch ($status)
 		{
-			case GalleryStatus::Success:
-				$output_view->create("Success");
+			case Status::Success:
+				$output_view->create("Success", $gallery);
 				break;
-			case GalleryStatus::Unauthorized:
-				$output_view->create("Unauthorized");
+			case Status::Unauthorised:
+				$output_view->create("Unauthorised");
 				break;	
-			case GalleryStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;
 		}

@@ -46,7 +46,6 @@ final class removeTest extends TestCase
 			fputcsv($handle, $comment);
 		}
 		fclose($handle);
-		//$like = [$like_id, $image_id, $user_id];
 		$likes = array(
 			array("0010", "0001", "1002"),
 			array("0011", "0001", "1000"),
@@ -76,9 +75,9 @@ final class removeTest extends TestCase
 		$output_view = new MockRemoveViewModel();
 		$presenter = new MockRemovePresenter();
 		Controller::remove('', ["image_id" => "0001"], $data_access, $output_view, $presenter);
-		$this->assertSame("Unauthorized", $output_view->err_msg);
+		$this->assertSame("Unauthorised", $output_view->err_msg);
 		Controller::remove('9999', ["image_id" => "0001"], $data_access, $output_view, $presenter);
-		$this->assertSame("Unauthorized", $output_view->err_msg);
+		$this->assertSame("Unauthorised", $output_view->err_msg);
 	}
 
 	public function testSystemFailure()

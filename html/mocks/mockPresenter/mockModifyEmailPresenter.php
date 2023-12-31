@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/modifyEmailOutputInterface.php';
+require_once __DIR__.'/../../usecases/users/modifyEmail.php';
 
 class MockModifyEmailPresenter implements modifyEmailOutput
 {
@@ -8,16 +8,16 @@ class MockModifyEmailPresenter implements modifyEmailOutput
 	{
 		switch ($status)
 		{
-			case ModifyEmailStatus::Success:
+			case Status::Success:
 				$output_view->create("Success");
 				break;	
-			case ModifyEmailStatus::Unauthorised:
+			case Status::Unauthorised:
 				$output_view->create("Unauthorised");
 				break;
-			case ModifyEmailStatus::InvalidEmail:
+			case Status::InvalidEmail:
 				$output_view->create("InvalidEmail");
 				break;
-			case ModifyEmailStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;
 		}

@@ -1,20 +1,5 @@
 <?php
 
-require_once __DIR__.'/../../usecases/data/userInputData.php';
-require_once __DIR__.'/../../usecases/data/confirmInputData.php';
-require_once __DIR__.'/../../usecases/data/loginInputData.php';
-require_once __DIR__.'/../../usecases/data/uploadInputData.php';
-require_once __DIR__.'/../../usecases/data/pswdRequestInputData.php';
-require_once __DIR__.'/../../usecases/data/pswdResetInputData.php';
-require_once __DIR__.'/../../usecases/data/pswdRenewInputData.php';
-require_once __DIR__.'/../../usecases/data/modifyUsernameInputData.php';
-require_once __DIR__.'/../../usecases/data/modifyEmailInputData.php';
-require_once __DIR__.'/../../usecases/data/changeNotificationsInputData.php';
-require_once __DIR__.'/../../usecases/data/commentInputData.php';
-require_once __DIR__.'/../../usecases/data/likeInputData.php';
-require_once __DIR__.'/../../usecases/data/galleryInputData.php';
-require_once __DIR__.'/../../usecases/data/imageInputData.php';
-require_once __DIR__.'/../../usecases/data/removeInputData.php';
 require_once __DIR__.'/../../usecases/users/signup.php';
 require_once __DIR__.'/../../usecases/users/confirm.php';
 require_once __DIR__.'/../../usecases/login/login.php';

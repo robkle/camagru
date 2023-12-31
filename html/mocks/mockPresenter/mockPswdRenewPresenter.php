@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/pswdRenewOutputInterface.php';
+require_once __DIR__.'/../../usecases/passwordRequest/renew.php';
 
 class MockPswdRenewPresenter implements PswdRenewOutput
 {
@@ -8,19 +8,19 @@ class MockPswdRenewPresenter implements PswdRenewOutput
 	{
 		switch ($status)
 		{
-			case PswdRenewStatus::Success:
+			case Status::Success:
 				$output_view->create("Success");
 				break;	
-			case PswdRenewStatus::Unauthorised:
+			case Status::Unauthorised:
 				$output_view->create("Unauthorised");
 				break;
-			case PswdRenewStatus::InvalidPassword:
+			case Status::InvalidPassword:
 				$output_view->create("InvalidPassword");
 				break;
-			case PswdRenewStatus::ConflictPassword:
+			case Status::ConflictPassword:
 				$output_view->create("ConflictPassword");
 				break;
-			case PswdRenewStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;
 		}

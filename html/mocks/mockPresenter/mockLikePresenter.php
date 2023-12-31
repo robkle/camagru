@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../usecases/interfaces/likeOutputInterface.php';
+require_once __DIR__.'/../../usecases/responses/likes.php';
 
 class MockLikePresenter implements LikeOutput
 {
@@ -8,13 +8,13 @@ class MockLikePresenter implements LikeOutput
 	{
 		switch ($status)
 		{
-			case LikeStatus::Success:
+			case Status::Success:
 				$output_view->create("Success");
 				break;	
-			case LikeStatus::Unauthorised:
+			case Status::Unauthorised:
 				$output_view->create("Unauthorised");
 				break;
-			case LikeStatus::SystemFailure:
+			case Status::SystemFailure:
 				$output_view->create("SystemFailure");
 				break;
 		}
