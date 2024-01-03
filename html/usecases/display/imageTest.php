@@ -62,7 +62,7 @@ final class imageTest extends TestCase
 	public function testSystemFailure()
 	{
 		$data_access = $this->createStub(MockDataAccess::class);
-		$data_access->method('fetchImage')->will($this->returnValue([NULL]));
+		$data_access->method('fetchImage')->will($this->returnValue([]));
 		$output_view = new MockImageViewModel();
 		$presenter = new MockImagePresenter();
 		Controller::image(["image_id" => "0003"], $data_access, $output_view, $presenter);

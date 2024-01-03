@@ -74,7 +74,7 @@ class CommentInteractor implements CommentInterface
 			return Status::Unauthorised;
 		}
 		$dbUser = $commentData->data_access->fetchUser($commentData->user_id, null, null);
-		if ($dbUser === [NULL]) {
+		if ($dbUser === []) {
 			return Status::SystemFailure;
 		}
 		if ($dbUser["id"] === null) {
@@ -82,7 +82,7 @@ class CommentInteractor implements CommentInterface
 		}
 		//2. get image owner with image id
 		$dbImage = $commentData->data_access->fetchImageInfo($commentData->image_id);
-		if ($dbImage === [NULL]) {
+		if ($dbImage === []) {
 			return Status::SystemFailure;
 		}
 		if ($dbImage['id'] === null) {
@@ -94,7 +94,7 @@ class CommentInteractor implements CommentInterface
 		}
 		//4. email image user
 		$imageUser = $commentData->data_access->fetchUser($dbImage['user_id'], null, null);
-		if ($imageUser === [NULL]) {
+		if ($imageUser === []) {
 			return Status::SystemFailure;
 		}
 		if ($imageUser["id"] === null) {

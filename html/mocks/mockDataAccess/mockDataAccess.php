@@ -4,10 +4,21 @@ require_once __DIR__.'/../../entities/dataAccessInterface.php';
 
 class MockDataAccess implements DataAccess
 {
+	public $path;
+
+	public function __construct($path = null)
+	{
+		if ($path == null) {
+			$this->path = "/home/robkle/Projects/camagru/html";
+		} else {
+			$this->path = $path;
+		}
+	}
+
 	public function fetchUser($userId, $user, $email): array
 	{	
 		$db_user = [];
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/users.csv", "r")) !== FALSE)
 		{
 			$db_user = ["id" => null,
 						"login" => null,
@@ -19,7 +30,7 @@ class MockDataAccess implements DataAccess
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 			{
 				$data=json_encode($line);
-				if (strpos($data, $userId) or strpos($data, $user) or strpos($data, $email))
+				if (($userId && strpos($data, $userId)) || ($user && strpos($data, $user)) || ($email && strpos($data, $email)))
 				{
 					$db_user = ["id" => $line[0],
 								"login" => $line[1],
@@ -31,15 +42,15 @@ class MockDataAccess implements DataAccess
 					break;	
 				}
 			}	
-		}
 		fclose($handle);
+		}
 		return $db_user;
 	}
 
 	public function postUser($login, $email, $enc_pswd, $ckey): bool
 	{
 		$SUCCESS = false;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "a")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/users.csv", "a")) !== FALSE)
 		{
 			$user_id = rand(1000, 9999);
 			$user = [$user_id, $login, $email, $enc_pswd, "No", $ckey, "On"];
@@ -55,7 +66,7 @@ class MockDataAccess implements DataAccess
 	public function fetchCkey($ckey): array
 	{
 		$db_ckey = [];
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/users.csv", "r")) !== FALSE)
 		{
 			$db_ckey = ["confirm" => null, "ckey" => null];
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
@@ -75,9 +86,9 @@ class MockDataAccess implements DataAccess
 	public function confirmUser($ckey): bool 
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/users.csv", "r")) !== FALSE)
 		{
-			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
+			if (($handle_tmp = fopen($this->path."/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
 			{
 				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 				{
@@ -91,14 +102,14 @@ class MockDataAccess implements DataAccess
 			fclose($handle_tmp);
 		}
 		fclose($handle);
-		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
+		rename($this->path."/mocks/mockDatabase/.tmpusers.csv", $this->path."/mocks/mockDatabase/users.csv");
 		return $SUCCESS;
 	}
 
 	public function postImage($userId, $image): bool
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "a")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/images.csv", "a")) !== FALSE)
 		{
 			$img_id = rand(1000, 9999);
 			$img = [$img_id, $userId, $image, "0"]; //0 is the number likes
@@ -115,7 +126,7 @@ class MockDataAccess implements DataAccess
 	public function postRequestToken($email, $token, $timeout): bool
 	{
 		$SUCCESS = FALSE;
-		$handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/pswdRequest.csv", "a");
+		$handle = fopen($this->path."/mocks/mockDatabase/pswdRequest.csv", "a");
 		if ($handle !== FALSE){
 			$_id = rand(1000, 9999);
 			$line = [$_id, $email, $token, $timeout];
@@ -130,7 +141,7 @@ class MockDataAccess implements DataAccess
 	public function fetchRequestToken($token): array
 	{
 		$db_token = [];
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/pswdRequest.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/pswdRequest.csv", "r")) !== FALSE)
 		{
 			$db_token = ["id" => null, "email" => null, "token" => null, "timeout" => null];
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
@@ -152,9 +163,9 @@ class MockDataAccess implements DataAccess
 	public function deleteRequestToken($email): bool
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/pswdRequest.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/pswdRequest.csv", "r")) !== FALSE)
 		{
-			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpPswdRequest.csv", "a")) !== FALSE)
+			if (($handle_tmp = fopen($this->path."/mocks/mockDatabase/.tmpPswdRequest.csv", "a")) !== FALSE)
 			{
 				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 				{
@@ -167,16 +178,16 @@ class MockDataAccess implements DataAccess
 			fclose($handle_tmp);
 		}
 		fclose($handle);
-		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpPswdRequest.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/pswdRequest.csv");
+		rename($this->path."/mocks/mockDatabase/.tmpPswdRequest.csv", $this->path."/mocks/mockDatabase/pswdRequest.csv");
 		return $SUCCESS;
 	}
 
 	public function changePassword($user_id, $enc_pswd): bool 
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/users.csv", "r")) !== FALSE)
 		{
-			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
+			if (($handle_tmp = fopen($this->path."/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
 			{
 				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 				{
@@ -190,16 +201,16 @@ class MockDataAccess implements DataAccess
 			fclose($handle_tmp);
 		}
 		fclose($handle);
-		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
+		rename($this->path."/mocks/mockDatabase/.tmpusers.csv", $this->path."/mocks/mockDatabase/users.csv");
 		return $SUCCESS;
 	}
 
 	public function changeUsername($user_id, $new_username): bool 
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/users.csv", "r")) !== FALSE)
 		{
-			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
+			if (($handle_tmp = fopen($this->path."/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
 			{
 				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 				{
@@ -213,16 +224,16 @@ class MockDataAccess implements DataAccess
 			fclose($handle_tmp);
 		}
 		fclose($handle);
-		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
+		rename($this->path."/mocks/mockDatabase/.tmpusers.csv", $this->path."/mocks/mockDatabase/users.csv");
 		return $SUCCESS;
 	}
 
 	public function changeEmail($user_id, $new_email): bool 
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/users.csv", "r")) !== FALSE)
 		{
-			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
+			if (($handle_tmp = fopen($this->path."/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
 			{
 				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 				{
@@ -236,16 +247,16 @@ class MockDataAccess implements DataAccess
 			fclose($handle_tmp);
 		}
 		fclose($handle);
-		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
+		rename($this->path."/mocks/mockDatabase/.tmpusers.csv", $this->path."/mocks/mockDatabase/users.csv");
 		return $SUCCESS;
 	}
 
 	public function changeNotifications($user_id, $notifications): bool 
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/users.csv", "r")) !== FALSE)
 		{
-			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
+			if (($handle_tmp = fopen($this->path."/mocks/mockDatabase/.tmpusers.csv", "a")) !== FALSE)
 			{
 				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 				{
@@ -259,14 +270,14 @@ class MockDataAccess implements DataAccess
 			fclose($handle_tmp);
 		}
 		fclose($handle);
-		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpusers.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/users.csv");
+		rename($this->path."/mocks/mockDatabase/.tmpusers.csv", $this->path."/mocks/mockDatabase/users.csv");
 		return $SUCCESS;
 	}
 
 	public function fetchImageInfo($image_id): array
 	{	
 		$db_image = [];
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/images.csv", "r")) !== FALSE)
 		{
 			$db_image = ["id" => null,
 						"user_id" => null,
@@ -290,7 +301,7 @@ class MockDataAccess implements DataAccess
 	public function postComment($image_id, $user_id, $comment): bool
 	{
 		$SUCCESS = false;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/comments.csv", "a")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/comments.csv", "a")) !== FALSE)
 		{
 			$comment_id = rand(1000, 9999);
 			$comment = [$comment_id, $image_id, $user_id, $comment];
@@ -306,7 +317,7 @@ class MockDataAccess implements DataAccess
 	public function fetchLike($image_id, $user_id): array
 	{
 		$like = [];
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/likes.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/likes.csv", "r")) !== FALSE)
 		{
 			$like = ["like_id" => null, "image_id" => null, "user_id" => null];
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
@@ -325,7 +336,7 @@ class MockDataAccess implements DataAccess
 	public function addLike($image_id, $user_id): bool
 	{
 		$SUCCESS = false;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/likes.csv", "a")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/likes.csv", "a")) !== FALSE)
 		{
 			$like_id = rand(1000, 9999);
 			$like = [$like_id, $image_id, $user_id];
@@ -341,9 +352,9 @@ class MockDataAccess implements DataAccess
 	public function removeLike($image_id, $user_id): bool
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/likes.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/likes.csv", "r")) !== FALSE)
 		{
-			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmplikes.csv", "a")) !== FALSE)
+			if (($handle_tmp = fopen($this->path."/mocks/mockDatabase/.tmplikes.csv", "a")) !== FALSE)
 			{
 				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 				{
@@ -357,18 +368,18 @@ class MockDataAccess implements DataAccess
 			fclose($handle_tmp);
 		}
 		fclose($handle);
-		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmplikes.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/likes.csv");
+		rename($this->path."/mocks/mockDatabase/.tmplikes.csv", $this->path."/mocks/mockDatabase/likes.csv");
 		return $SUCCESS;
 	}
 
 	protected function countLike($image_id, $count): bool
 	{
 		$SUCCESS = FALSE;
-		if (($img_handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) == FALSE)
+		if (($img_handle = fopen($this->path."/mocks/mockDatabase/images.csv", "r")) == FALSE)
 		{
 			return $SUCCESS;
 		}
-		if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpimages.csv", "a")) == FALSE)
+		if (($handle_tmp = fopen($this->path."/mocks/mockDatabase/.tmpimages.csv", "a")) == FALSE)
 		{
 			return $SUCCESS;
 		}
@@ -388,14 +399,14 @@ class MockDataAccess implements DataAccess
 		$SUCCESS = TRUE;
 		fclose($handle_tmp);
 		fclose($img_handle);
-		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpimages.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv");
+		rename($this->path."/mocks/mockDatabase/.tmpimages.csv", $this->path."/mocks/mockDatabase/images.csv");
 		return $SUCCESS;
 	}
 
 	public function fetchImages($creator = NULL)
 	{
 		$images = array();
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/images.csv", "r")) !== FALSE)
 		{
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 			{
@@ -421,7 +432,7 @@ class MockDataAccess implements DataAccess
 	public function fetchImage($image_id): array
 	{
 		$image = [];
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/images.csv", "r")) !== FALSE)
 		{
 			$image = [
 					"id" => null, 
@@ -453,7 +464,7 @@ class MockDataAccess implements DataAccess
 	public function fetchComments($image_id) 
 	{
 		$comments = array();
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/comments.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/comments.csv", "r")) !== FALSE)
 		{
 			while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 			{
@@ -479,9 +490,9 @@ class MockDataAccess implements DataAccess
 	public function removeImageLikes($image_id): bool
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/likes.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/likes.csv", "r")) !== FALSE)
 		{
-			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmplikess.csv", "a")) !== FALSE)
+			if (($handle_tmp = fopen($this->path."/mocks/mockDatabase/.tmplikes.csv", "a")) !== FALSE)
 			{
 				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 				{
@@ -495,16 +506,16 @@ class MockDataAccess implements DataAccess
 			fclose($handle_tmp);
 		}
 		fclose($handle);
-		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmplikess.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/likess.csv");
+		rename($this->path."/mocks/mockDatabase/.tmplikes.csv", $this->path."/mocks/mockDatabase/likes.csv");
 		return $SUCCESS;
 	}
 
 	public function removeComments($image_id): bool
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/comments.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/comments.csv", "r")) !== FALSE)
 		{
-			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpcomments.csv", "a")) !== FALSE)
+			if (($handle_tmp = fopen($this->path."/mocks/mockDatabase/.tmpcomments.csv", "a")) !== FALSE)
 			{
 				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 				{
@@ -518,16 +529,16 @@ class MockDataAccess implements DataAccess
 			fclose($handle_tmp);
 		}
 		fclose($handle);
-		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpcomments.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/comments.csv");
+		rename($this->path."/mocks/mockDatabase/.tmpcomments.csv", $this->path."/mocks/mockDatabase/comments.csv");
 		return $SUCCESS;
 	}
 
 	public function removeImage($image_id, $user_id): bool
 	{
 		$SUCCESS = FALSE;
-		if (($handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv", "r")) !== FALSE)
+		if (($handle = fopen($this->path."/mocks/mockDatabase/images.csv", "r")) !== FALSE)
 		{
-			if (($handle_tmp = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpimages.csv", "a")) !== FALSE)
+			if (($handle_tmp = fopen($this->path."/mocks/mockDatabase/.tmpimages.csv", "a")) !== FALSE)
 			{
 				while (($line = fgetcsv($handle, null, ",")) !== FALSE)
 				{
@@ -541,7 +552,7 @@ class MockDataAccess implements DataAccess
 			fclose($handle_tmp);
 		}
 		fclose($handle);
-		rename("/home/robkle/Projects/camagru/html/mocks/mockDatabase/.tmpimages.csv", "/home/robkle/Projects/camagru/html/mocks/mockDatabase/images.csv");
+		rename($this->path."/mocks/mockDatabase/.tmpimages.csv", $this->path."/mocks/mockDatabase/images.csv");
 		$this->removeComments($image_id);
 		$this->removeImageLikes($image_id);
 		return $SUCCESS;

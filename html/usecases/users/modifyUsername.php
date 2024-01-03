@@ -66,7 +66,7 @@ class ModifyUsernameInteractor implements ModifyUsernameInterface
 			return Status::InvalidUsername;
 		}
 		$dbUser = $modifydata->data_access->fetchUser($modifydata->user_id, null, null);
-		if ($dbUser === [NULL]) {
+		if ($dbUser === []) {
 			return Status::SystemFailure;
 		}
 		if ($dbUser['id'] === null) {

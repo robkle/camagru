@@ -89,7 +89,7 @@ class SignupInteractor implements UserInteractor
 			return Status::InvalidPassword;
 		}
 		$db_user = $userdata->data_access->fetchUser(null, $userdata->login, $userdata->email);
-		if ($db_user === [NULL]) {
+		if ($db_user === []) {
 			return Status::SystemFailure;
 		}
 		if ($db_user['login'] === $userdata->login) {

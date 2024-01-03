@@ -50,7 +50,7 @@ final class modifyEmailTest extends TestCase
 	public function testDbFetchFail()
 	{
 		$data_access = $this->createStub(MockDataAccess::class);
-		$data_access->method('fetchUser')->will($this->returnValue([NULL]));
+		$data_access->method('fetchUser')->will($this->returnValue([]));
 		$output_view = new MockModifyEmailViewModel();
 		$presenter = new MockModifyEmailPresenter();
 		Controller::modifyEmail("1000", ["email" => "newEmail@domain.com"], $data_access, $output_view, $presenter);

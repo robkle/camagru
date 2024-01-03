@@ -61,7 +61,7 @@ class PswdResetInteractor implements PswdResetInterface
 		}
 		//fetch token array containing token, timeout and email
 		$db_token = $resetdata->data_access->fetchRequestToken($resetdata->token);
-		if ($db_token === [NULL]) {
+		if ($db_token === []) {
 			return Status::SystemFailure; 
 		}
 		//Check timeout
@@ -70,7 +70,7 @@ class PswdResetInteractor implements PswdResetInterface
 		}
 		//fetch user by email
 		$dbUser = $resetdata->data_access->fetchUser(null, null, $db_token['email']);
-		if ($dbUser === [NULL]) {
+		if ($dbUser === []) {
 			return Status::SystemFailure;
 		}
 		//Check if user exists

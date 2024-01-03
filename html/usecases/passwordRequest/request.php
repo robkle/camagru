@@ -55,7 +55,7 @@ class PswdRequestInteractor implements PswdRequestInterface
 	public static function check($requestdata)
 	{
 		$db_user = $requestdata->data_access->fetchUser(null, null, $requestdata->email);
-		if ($db_user === [NULL]) {
+		if ($db_user === []) {
 			return Status::SystemFailure;
 		}
 		if ($db_user['email'] === null) {

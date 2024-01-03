@@ -47,7 +47,7 @@ class ConfirmInteractor implements ConfirmUserInteractor
 			return Status::QueryInvalid;
 		}
 		$db_ckey = $userdata->data_access->fetchCkey($userdata->ckey);
-		if ($db_ckey === [NULL]) {
+		if ($db_ckey === []) {
 			return Status::SystemFailure;
 		}	
 		if (isset($db_ckey['ckey']) !== true) {

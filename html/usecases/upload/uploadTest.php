@@ -27,7 +27,7 @@ final class uploadTest extends TestCase
 	public function testInvalidUser()
 	{
 		$data_access = $this->createStub(MockDataAccess::class);
-		$data_access->method('fetchUser')->will($this->returnValue([NULL]));
+		$data_access->method('fetchUser')->will($this->returnValue([]));
 		$upload_view = new MockUploadViewModel();
 		$presenter = new MockUploadPresenter();
 		Controller::upload([NULL], NULL, NULL, NULL, $data_access, $upload_view, $presenter);

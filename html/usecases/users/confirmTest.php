@@ -59,7 +59,7 @@ final class confirmTest extends TestCase
 	{	
 		$confirm = $this->getEmail();
 		$data_access = $this->createStub(MockDataAccess::class);
-		$data_access->method('fetchCkey')->will($this->returnValue([NULL]));
+		$data_access->method('fetchCkey')->will($this->returnValue([]));
 		$confirm_view = new MockConfirmViewModel();
 		$presenter = new MockConfirmPresenter();
 		Controller::confirm($confirm, $data_access, $confirm_view, $presenter);

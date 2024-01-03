@@ -67,6 +67,8 @@ final class removeTest extends TestCase
 		fclose($handle);
 		$handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/comments.csv", "w");
 		fclose($handle);
+		$handle = fopen("/home/robkle/Projects/camagru/html/mocks/mockDatabase/likes.csv", "w");
+		fclose($handle);
 	}
 
 	public function testUnauthorized()

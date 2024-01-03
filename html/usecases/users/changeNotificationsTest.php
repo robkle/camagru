@@ -50,7 +50,7 @@ final class changeNotificationsTest extends TestCase
 	public function testDbFetchFail()
 	{
 		$data_access = $this->createStub(MockDataAccess::class);
-		$data_access->method('fetchUser')->will($this->returnValue([NULL]));
+		$data_access->method('fetchUser')->will($this->returnValue([]));
 		$output_view = new MockChangeNotificationsViewModel();
 		$presenter = new MockChangeNotificationsPresenter();
 		Controller::changeNotifications("1000", ["notifications" => "Off"], $data_access, $output_view, $presenter);

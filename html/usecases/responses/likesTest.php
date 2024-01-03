@@ -72,7 +72,7 @@ final class likesTest extends TestCase
 
 		//TEST fetch user failure 
 		$data_access = $this->createStub(MockDataAccess::class);
-		$data_access->method('fetchUser')->will($this->returnValue([NULL]));
+		$data_access->method('fetchUser')->will($this->returnValue([]));
 		
 
 		Controller::like('1000', ['image_id' => '0001'], $data_access, $message_handler, $output_view, $presenter);
@@ -81,7 +81,7 @@ final class likesTest extends TestCase
 		// TEST fetchImageInfo failure
 		$data_access = $this->createStub(MockDataAccess::class);
 		$data_access->method('fetchUser')->will($this->returnValue(["id" => "1000"]));
-		$data_access->method('fetchImageInfo')->will($this->returnValue([NULL]));
+		$data_access->method('fetchImageInfo')->will($this->returnValue([]));
 		Controller::like('1000', ['image_id' => '0001'], $data_access, $message_handler, $output_view, $presenter);
 		$this->assertSame("SystemFailure", $output_view->err_msg);
 		$data_access = new MockDataAccess();
@@ -93,7 +93,7 @@ final class likesTest extends TestCase
 		$data_access = $this->createStub(MockDataAccess::class);
 		$data_access->method('fetchUser')->will($this->returnValue(["id" => "1000"]));
 		$data_access->method('fetchImageInfo')->will($this->returnValue($image));
-		$data_access->method('fetchLike')->will($this->returnValue([NULL]));
+		$data_access->method('fetchLike')->will($this->returnValue([]));
 		Controller::like('1000', ['image_id' => '0001'], $data_access, $message_handler, $output_view, $presenter);
 		$this->assertSame("SystemFailure", $output_view->err_msg);
 

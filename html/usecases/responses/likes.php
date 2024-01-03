@@ -64,7 +64,7 @@ class LikeInteractor implements LikeInterface
 			return Status::Unauthorised;
 		}
 		$dbUser = $likeData->data_access->fetchUser($likeData->user_id, null, null);
-		if ($dbUser === [NULL]) {
+		if ($dbUser === []) {
 			return Status::SystemFailure;
 		}
 		if ($dbUser["id"] === null) {
@@ -72,7 +72,7 @@ class LikeInteractor implements LikeInterface
 		}
 		//2. get image owner with image id
 		$dbImage = $likeData->data_access->fetchImageInfo($likeData->image_id);
-		if ($dbImage === [NULL]) {
+		if ($dbImage === []) {
 			return Status::SystemFailure;
 		}
 		if ($dbImage['id'] === null) {
@@ -80,7 +80,7 @@ class LikeInteractor implements LikeInterface
 		}
 		//3. create/remove like
 		$like = $likeData->data_access->fetchLike($likeData->image_id, $likeData->user_id);
-		if ($like === [NULL]) {
+		if ($like === []) {
 			return Status::SystemFailure;
 		}
 		$SUCCESS = false;
@@ -98,7 +98,7 @@ class LikeInteractor implements LikeInterface
 		//4. email image user
 		if ($addLike) {
 			$imageUser = $likeData->data_access->fetchUser($dbImage['user_id'], null, null);
-			if ($imageUser === [NULL]) {
+			if ($imageUser === []) {
 				return Status::SystemFailure;
 			}
 			if ($imageUser["id"] === null) {

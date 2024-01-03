@@ -86,14 +86,14 @@ final class commentsTest extends TestCase
 
 		//TEST fetch user failure 
 		$data_access = $this->createStub(MockDataAccess::class);
-		$data_access->method('fetchUser')->will($this->returnValue([NULL]));
+		$data_access->method('fetchUser')->will($this->returnValue([]));
 		Controller::comment('1000', ['image_id' => 1000, 'comment' => 'Cool image!'], $data_access, $message_handler, $output_view, $presenter);
 		$this->assertSame("SystemFailure", $output_view->err_msg);
 		
 		// TEST fetchImageInfo failure
 		$data_access = $this->createStub(MockDataAccess::class);
 		$data_access->method('fetchUser')->will($this->returnValue(["id" => "1000"]));
-		$data_access->method('fetchImageInfo')->will($this->returnValue([NULL]));
+		$data_access->method('fetchImageInfo')->will($this->returnValue([]));
 		Controller::comment('1000', ['image_id' => 1000, 'comment' => 'Cool image!'], $data_access, $message_handler, $output_view, $presenter);
 		$this->assertSame("SystemFailure", $output_view->err_msg);
 		$data_access = new MockDataAccess();

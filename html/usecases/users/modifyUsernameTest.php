@@ -51,7 +51,7 @@ final class modifyUsernameTest extends TestCase
 	public function testDbFetchFail()
 	{
 		$data_access = $this->createStub(MockDataAccess::class);
-		$data_access->method('fetchUser')->will($this->returnValue([NULL]));
+		$data_access->method('fetchUser')->will($this->returnValue([]));
 		$output_view = new MockModifyUsernameViewModel();
 		$presenter = new MockModifyUsernamePresenter();
 		Controller::modifyUsername("1000", ["username" => "newUsername"], $data_access, $output_view, $presenter);

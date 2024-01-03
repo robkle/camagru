@@ -79,7 +79,7 @@ class UploadInteractor implements UploadInterface
 		}
 
 		$dbUser = $uploadData->data_access->fetchUser($uploadData->userId, null, null);
-		if ($dbUser === [NULL]) {
+		if ($dbUser === []) {
 			return Status::InvalidUser;
 		}
 

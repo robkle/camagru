@@ -52,7 +52,7 @@ class ChangeNotificationsInteractor implements ChangeNotificationsInterface
 			return Status::InvalidOption;
 		}
 		$dbUser = $changeData->data_access->fetchUser($changeData->user_id, null, null);
-		if ($dbUser === [NULL]) {
+		if ($dbUser === []) {
 			return Status::SystemFailure;
 		}
 		if ($dbUser['id'] === null) {

@@ -48,7 +48,7 @@ class RemoveInteractor implements RemoveInterface
 			return Status::Unauthorised;
 		}
 		$dbuser = $removeData->data_access->fetchUser($removeData->user_id, null, null);
-		if ($dbuser === [NULL]) {
+		if ($dbuser === []) {
 			return Status::SystemFailure;
 		}
 		if ($dbuser["id"] == null) {

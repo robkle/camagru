@@ -56,7 +56,7 @@ class ImageInteractor implements ImageInterface
 	public static function check($inputData, &$imageData)
 	{
 		$image = $inputData->data_access->fetchImage($inputData->image_id);
-		if ($image == [NULL]) {
+		if ($image == []) {
 			return Status::SystemFailure;
 		}
 		$comments = $inputData->data_access->fetchComments($inputData->image_id);
