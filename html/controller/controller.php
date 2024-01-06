@@ -5,14 +5,20 @@ require_once __DIR__.'/../mocks/mockMessageHandler/mockMessageHandler.php'; //TE
 require_once __DIR__.'/../presenters/signupPresenter.php';
 require_once __DIR__.'/../presenters/confirmPresenter.php';
 require_once __DIR__.'/../presenters/loginPresenter.php';
+require_once __DIR__.'/../presenters/modifyEmailPresenter.php';
+require_once __DIR__.'/../presenters/modifyUsernamePresenter.php';
 
 require_once __DIR__.'/../viewModels/signupViewModel.php';
 require_once __DIR__.'/../viewModels/confirmViewModel.php';
 require_once __DIR__.'/../viewModels/loginViewModel.php';
+require_once __DIR__.'/../viewModels/modifyEmailViewModel.php';
+require_once __DIR__.'/../viewModels/modifyUsernameViewModel.php';
 
 require_once __DIR__.'/../usecases/users/signup.php';
 require_once __DIR__.'/../usecases/users/confirm.php';
 require_once __DIR__.'/../usecases/login/login.php';
+require_once __DIR__.'/../usecases/users/modifyEmail.php';
+require_once __DIR__.'/../usecases/users/modifyUsername.php';
 
 
 class Controller
@@ -60,6 +66,22 @@ class Controller
 		$this->presenter = new LoginPresenter();
 		$inputData = new LoginInputData($credentials, $this->data_access, $this->output_view, $this->presenter);
 		LoginInteractor::run($inputData);
+	}
+
+	public function modifyEmail($user_id, $input)
+	{
+		$this->output_view = new modifyEmailViewModel();
+		$this->presenter = new modifyEmailPresenter();
+		$inputData = new ModifyEmailInputData($user_id, $input, $this->data_access, $this->output_view, $this->presenter);
+		ModifyEmailInteractor::run($inputData);
+	}
+
+	public function modifyUsername($user_id, $input)
+	{
+		$this->output_view = new modifyUsernameViewModel();
+		$this->presenter = new modifyUsernamePresenter();
+		$inputData = new ModifyUsernameInputData($user_id, $input, $this->data_access, $this->output_view, $this->presenter);
+		ModifyUsernameInteractor::run($inputData);
 	}
 }
 
