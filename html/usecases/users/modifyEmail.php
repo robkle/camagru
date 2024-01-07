@@ -6,6 +6,7 @@ class ModifyEmailInputData
 {
 	public $user_id;
 	public $email;
+	public $pswd;
 	public $data_access;
 	public $output_view;
 	public $presenter;
@@ -16,6 +17,10 @@ class ModifyEmailInputData
 		if ($input && array_key_exists('email', $input))
 		{
 			$this->email = $input['email'];
+		}
+		if ($input && array_key_exists('pswd', $input))
+		{
+			$this->pswd = $input['pswd'];
 		}
 		$this->user_id = $user_id;
 		$this->data_access = $data_access;
@@ -57,6 +62,9 @@ class ModifyEmailInteractor implements ModifyEmailInterface
 		}
 		if ($dbUser['id'] === null) {
 			return Status::Unauthorised;
+		}
+		if (PasswdValidator::passwd_verify($modifydata->pswd, $dbUser['pswd']) !== true) {
+			return Status::InvalidPassword;
 		}
 		if ($modifydata->data_access->changeEmail($modifydata->user_id, $modifydata->email)!== TRUE) {
 			return Status::SystemFailure;

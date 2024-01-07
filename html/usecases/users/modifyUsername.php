@@ -18,6 +18,10 @@ class ModifyUsernameInputData
 		{
 			$this->username = $input['username'];
 		}
+		if ($input && array_key_exists('pswd', $input))
+		{
+			$this->pswd = $input['pswd'];
+		}
 		$this->user_id = $user_id;
 		$this->data_access = $data_access;
 		$this->output_view = $output_view;
@@ -71,6 +75,9 @@ class ModifyUsernameInteractor implements ModifyUsernameInterface
 		}
 		if ($dbUser['id'] === null) {
 			return Status::Unauthorised;
+		}
+		if (PasswdValidator::passwd_verify($modifydata->pswd, $dbUser['pswd']) !== true) {
+			return Status::InvalidPassword;
 		}
 		if ($modifydata->data_access->changeUsername($modifydata->user_id, $modifydata->username)!== TRUE) {
 			return Status::SystemFailure;

@@ -22,6 +22,7 @@
 			<h3>Modify username</h3>
 			<form method="post">
 				<input type="text" name="username" placeholder="New username">
+				<input type="text" name="pswd" placeholder="Password">
 				<button type="submit">Save</button>
 			</form>
 			<a href="index.php">Cancel</a>

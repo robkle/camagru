@@ -22,6 +22,7 @@
 			<h3>Modify email</h3>
 			<form method="post">
 				<input type="text" name="email" placeholder="New email">
+				<input type="text" name="pswd" placeholder="Password">
 				<button type="submit">Save</button>
 			</form>
 			<a href="index.php">Cancel</a>

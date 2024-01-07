@@ -14,6 +14,9 @@ class ModifyUsernamePresenter implements modifyUsernameOutput
 			case Status::Unauthorised:
 				$output_view->create("Unauthorised");
 				break;
+			case Status::InvalidPassword:
+				$output_view->create("InvalidPassword");
+				break;
 			case Status::InvalidUsername:
 				$output_view->create("InvalidUsername");
 				break;
